@@ -1,0 +1,154 @@
+/* ═══════════════════════════════════════════════
+   NSS TSEC — Preloader & Offline Screen
+   White background + mix-blend-mode removes
+   the black background from nss_logo.png
+   ═══════════════════════════════════════════════ */
+
+/* ── Body hidden until preloader fades ── */
+body.preloading {
+  overflow: hidden;
+}
+
+/* ── Preloader Overlay ── */
+#nss-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+#nss-preloader.hide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ── Logo wrapper — handles rotation ── */
+.preloader-logo-wrap {
+  animation: preloader-rotate 2.5s linear infinite;
+}
+
+/* Remove black corners: the NSS logo is circular, so we clip it to a circle.
+   This removes the black square corners from the PNG entirely. */
+.preloader-logo-wrap img {
+  width: 140px;
+  height: 140px;
+  clip-path: circle(50% at 50% 50%);
+  display: block;
+}
+
+/* Brief scale-pulse before spinning starts */
+@keyframes preloader-rotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ── Text: "Loading..." ── */
+.preloader-text {
+  font-family: 'Inter', 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #333;
+  animation: preloader-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes preloader-pulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
+
+/* ── Progress bar ── */
+.preloader-bar-track {
+  width: 160px;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.preloader-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #3a3a9e, #d32f2f);
+  border-radius: 10px;
+  animation: preloader-bar 2s ease-out forwards;
+}
+
+@keyframes preloader-bar {
+  0%   { width: 0%; }
+  60%  { width: 75%; }
+  100% { width: 100%; }
+}
+
+/* ══════════════════════════════
+   OFFLINE / NO INTERNET SCREEN
+   ══════════════════════════════ */
+#nss-offline {
+  position: fixed;
+  inset: 0;
+  z-index: 99998;
+  background: #ffffff;
+  display: none;                 /* JS shows this only when offline */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+#nss-offline.visible {
+  display: flex;
+}
+
+.offline-logo-wrap {
+  animation: offline-pulse-scale 2s ease-in-out infinite;
+}
+
+.offline-logo-wrap img {
+  width: 120px;
+  height: 120px;
+  clip-path: circle(50% at 50% 50%);
+  display: block;
+}
+
+@keyframes offline-pulse-scale {
+  0%, 100% { transform: scale(1);    opacity: 0.9; }
+  50%       { transform: scale(1.06); opacity: 1;   }
+}
+
+.offline-text {
+  font-family: 'Inter', 'Poppins', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #555;
+  animation: preloader-pulse 2s ease-in-out infinite;
+}
+
+.offline-hint {
+  font-family: 'Inter', 'Poppins', sans-serif;
+  font-size: 0.75rem;
+  color: #aaa;
+  letter-spacing: 1px;
+}
+
+/* ── Respect reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .preloader-logo-wrap,
+  .offline-logo-wrap {
+    animation: none;
+  }
+  .preloader-text,
+  .offline-text {
+    animation: none;
+    opacity: 1;
+  }
+}

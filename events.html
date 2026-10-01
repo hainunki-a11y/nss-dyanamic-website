@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Activities - NSS TSEC Mumbai</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Explore the complete timeline of NSS TSEC Mumbai activities, events, and programmes - from rallies and drives to seminars and hackathons.">
+  <meta name="keywords" content="NSS, TSEC Mumbai, Activities, Events, Timeline, Programmes, Social Service">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="events-timeline.css">
+  <link rel="stylesheet" href="preloader.css">
+</head>
+<body>
+  <!-- Preloader & Offline Screen -->
+  <script src="preloader.js"></script>
+
+  <!-- Cinematic Navbar -->
+  <header id="navbar" class="scrolled">
+    <div class="container">
+      <nav>
+        <div class="brand">
+          <img src="assets/nss_logo.png" alt="NSS Logo" id="nss-logo" class="logo" />
+          <div class="brand-text">
+            <h1>NATIONAL SERVICE SCHEME</h1>
+            <span>"NOT ME BUT YOU"</span>
+          </div>
+        </div>
+        <ul class="nav-links">
+          <li><a href="index.html#home">Home</a></li>
+          <li><a href="events.html" class="active">Events</a></li>
+          <li><a href="teams.html">Teams</a></li>
+          <li><a href="testimonials.html">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main style="padding-top: 100px;">
+
+    <!-- Hero Banner -->
+    <section class="timeline-hero">
+      <div class="container">
+        <h2 class="timeline-hero-title">Our Activities / Programmes</h2>
+        <p class="timeline-hero-subtitle">A timeline of all NSS activities conducted at TSEC</p>
+        <div class="divider" style="margin: 24px auto 0;"></div>
+      </div>
+    </section>
+    <!-- Academic Year Selector -->
+    <section class="academic-year-selector section-padding" style="padding-bottom: 0; padding-top: 32px;">
+      <div class="container">
+        <div class="year-tabs-container">
+          <button class="year-tab is-active" data-year="2025-26">
+            <span class="year-icon" aria-hidden="true">📅</span> Academic Year 2025–26
+          </button>
+          <button class="year-tab" data-year="2026-27">
+            <span class="year-icon" aria-hidden="true">📅</span> Academic Year 2026–27
+          </button>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Filter Bar -->
+    <section class="filter-bar-section" id="filter-bar">
+      <div class="container">
+        <div class="filter-bar">
+          <!-- Search Input -->
+          <div class="filter-search-wrap">
+            <span class="filter-search-icon" aria-hidden="true">🔍</span>
+            <input
+              type="search"
+              id="event-search"
+              class="filter-search-input"
+              placeholder="Search events…"
+              aria-label="Search events"
+              autocomplete="off"
+            />
+            <button class="filter-clear-btn" id="filter-clear" aria-label="Clear search" title="Clear" hidden>✕</button>
+          </div>
+          <!-- Category Chips -->
+          <div class="filter-chips" role="group" aria-label="Filter by category" id="filter-chips">
+            <button class="filter-chip is-active" data-tag="all" id="chip-all">All</button>
+          </div>
+        </div>
+        <!-- No results message -->
+        <p class="filter-no-results" id="filter-no-results" hidden>No events match your search.</p>
+      </div>
+    </section>
+
+    <!-- Timeline Section (populated by events-timeline.js) -->
+    <section id="timeline" class="timeline-section section-padding">
+      <div class="container">
+        <!-- Month blocks are injected here by events-timeline.js -->
+
+      </div>
+    </section>
+
+    <!-- All Events Section -->
+    <section id="all-events-section" class="all-events-section section-padding">
+      <div class="container">
+        <h2 class="all-events-title">All Events</h2>
+        <p class="all-events-subtitle">A complete record of our activities and programmes</p>
+        <div class="divider" style="margin: 16px auto 32px;"></div>
+        
+        <div class="table-responsive-wrapper">
+          <table class="events-table" id="events-table">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 80px;">SR. NO.</th>
+                <th scope="col">EVENT NAME</th>
+                <th scope="col" style="width: 150px;">DATE</th>
+                <th scope="col" style="width: 180px;">CATEGORY</th>
+              </tr>
+            </thead>
+            <tbody id="events-table-body">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="toggle-btn-container">
+          <button id="toggle-events-btn" class="view-complete-btn">VIEW COMPLETE LIST</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <footer id="contact" class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <h2>NSS TSEC</h2>
+            <p>Not Me, But You.</p>
+          </div>
+          <div class="footer-links">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html#home">Home</a></li>
+              <li><a href="index.html#about">About Us</a></li>
+              <li><a href="teams.html">Teams</a></li>
+            </ul>
+          </div>
+          <div class="footer-contact">
+            <h3>Connect</h3>
+            <p><a href="https://tsecmumbai.in/" target="_blank" style="text-decoration: underline;">TSEC</a> Mumbai, Kandivali East</p>
+            <p>Email: <a href="mailto:nss@tsecmumbai.in">nss@tsecmumbai.in</a></p>
+            <div class="contact-details" style="margin-top: 12px; font-size: 0.85rem; line-height: 1.5;">
+              <p style="margin-top: 8px;">Dr. Suresh Pathak (PO): <a href="tel:9869525639">9869525639</a></p>
+              <p style="margin-top: 8px;">Bhavesh Chaudhary (Youth President): <a href="tel:7756828367">7756828367</a></p>
+              <p style="margin-top: 8px;">Aditi Singh (Youth President): <a href="tel:9082070174">9082070174</a></p>
+              <p style="margin-top: 8px;">Siddhant Bhandari (Tech Head): <a href="tel:9260003000">9260003000</a></p>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; 2026 NSS TSEC Mumbai. Designed with Passion.</p>
+        </div>
+      </div>
+    </footer>
+    
+    <!-- Image Lightbox Modal -->
+    <div class="lightbox-overlay" id="lightbox" role="dialog" aria-modal="true" aria-label="Event Image">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close image">&times;</button>
+      <div class="lightbox-content">
+        <img src="" alt="Event photo" id="lightbox-img" />
+      </div>
+    </div>
+    
+  </main>
+
+  <!-- Scripts -->
+  <script src="script.js"></script>
+  <script src="events-timeline.js"></script>
+</body>
+</html>
