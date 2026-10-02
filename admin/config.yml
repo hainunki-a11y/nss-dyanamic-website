@@ -9,6 +9,17 @@
 # See docs/ADMIN_SETUP.md for the GitHub OAuth / fine-grained token setup and
 # docs/DATA_SCHEMA.md for the underlying JSON schema each collection edits.
 
+# ---- Branding (admin UI) ---------------------------------------------------
+# Custom title shown on the login page and browser tab.
+app_title: "NSS TSEC Content Admin"
+# Custom logo (NSS emblem) shown on the login page and in the header.
+logo:
+  src: /assets/nss_logo.png
+  show_in_header: true
+# Link to the live site (used in the account menu and for previews/assets).
+site_url: https://nss-dyanamic-website.vercel.app
+display_url: https://nss-dyanamic-website.vercel.app
+
 backend:
   name: github
   repo: hainunki-a11y/nss-dyanamic-website

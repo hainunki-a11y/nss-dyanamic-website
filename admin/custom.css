@@ -1,0 +1,61 @@
+/* ─────────────────────────────────────────────────────────────
+   NSS TSEC Content Admin — custom theme
+   Overrides Sveltia CMS's CSS custom properties (sveltia-ui).
+   These variables are the officially supported theming hook; the
+   default accent is a blue (hue 210). We re-brand it to the NSS
+   red used across the website (--nss-red: #d32f2f).
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* Brand accent (NSS red) */
+  --sui-primary-accent-color: #d32f2f;
+  --sui-primary-accent-color-dark: #b71c1c;
+  --sui-primary-accent-color-light: #e53935;
+  --sui-primary-accent-color-text: #d32f2f;
+  --sui-primary-accent-color-translucent: rgba(211, 47, 47, 0.6);
+  --sui-primary-accent-color-translucent-light: rgba(211, 47, 47, 0.4);
+  --sui-focus-ring-color: #d32f2f;
+
+  /* Slightly warmer neutrals for a friendlier feel */
+  --sui-base-hue: 210;
+}
+
+/* Login screen: branded gradient background */
+body {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(211, 47, 47, 0.18), transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(179, 28, 28, 0.16), transparent 45%),
+    linear-gradient(160deg, #101418 0%, #1c232b 55%, #14181d 100%) fixed;
+  background-attachment: fixed;
+}
+
+/* Slightly rounded, softer controls for a modern feel */
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='number'],
+input[type='date'],
+textarea,
+select {
+  border-radius: 8px;
+}
+
+button {
+  border-radius: 8px;
+}
+
+/* Primary buttons: branded red fill */
+button[class*='primary'] {
+  background-color: var(--sui-primary-accent-color) !important;
+  color: #fff !important;
+  border-color: var(--sui-primary-accent-color-dark) !important;
+}
+
+button[class*='primary']:hover {
+  background-color: var(--sui-primary-accent-color-dark) !important;
+}
+
+/* Links in accent color */
+a {
+  color: var(--sui-primary-accent-color);
+}
