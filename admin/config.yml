@@ -11,7 +11,7 @@
 
 backend:
   name: github
-  repo: Bhavesh1411/NSS-Website
+  repo: hainunki-a11y/nss-dyanamic-website
   branch: main
   # Authentication is handled purely client-side by Sveltia: editors click
   # "Sign in with Token" and paste a fine-grained personal access token.
