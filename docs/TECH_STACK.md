@@ -98,4 +98,4 @@ There is **no** `package.json`, `node_modules`, bundler (webpack/Vite), transpil
 | JPG / JPEG images | 37 | `assets/**` |
 | Fonts (local) | 0 | — (all via Google Fonts CDN) |
 | Video / audio | 0 | — |
-| JSON (local data) | 0 | — (data is hardcoded in JS) |
+| JSON (local data) | 58 | `data/` (single source of truth, edited via the CMS admin) |

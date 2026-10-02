@@ -6,39 +6,41 @@
 (function () {
   'use strict';
 
-  /* ── Magazine Content Data ── */
-  const pagesData = [
-    {
-      front: {
-        img: 'assets/photos/hero_1.jpg',
-        title: 'Beach Cleaning Drive',
-        desc: 'Our volunteers gathered at Juhu Beach for a massive cleaning drive, collecting over 200 kg of waste. The event brought together 80+ enthusiastic members who worked tirelessly under the morning sun.'
-      },
-      back: {
-        img: 'assets/photos/hero_2.jpg',
-        title: 'Independence Day Rally',
-        desc: 'A grand rally through the streets of Bandra on 15th August filled the neighbourhood with patriotic fervour. Volunteers carried the national flag and sang anthems.'
-      }
-    },
-    {
-      front: {
-        img: 'assets/photos/hero_3.png',
-        title: 'NSS Day Celebrations',
-        desc: 'Celebrating NSS Day with cultural programmes, tree plantation, and a pledge ceremony. Faculty advisors addressed the gathering, inspiring volunteers.'
-      },
-      back: {
-        img: 'assets/photos/hero_4.jpg',
-        title: 'Blood Donation Camp',
-        desc: 'In collaboration with local hospitals, our NSS unit organized a blood donation camp on campus. Over 60 units were collected in a single day.'
-      }
+  /* ── Magazine Content Data ──
+     (Session 3) Loaded from data/magazine.json via the shared loader. */
+  let pagesData = [];
+  let magData = null;
+  let dataReady = false;
+
+  /* ── XSS-safe text escaping (Session 5) ── */
+  function esc(s) {
+    return (window.NSS && window.NSS.escapeHtml) ? window.NSS.escapeHtml(s) : String(s == null ? '' : s);
+  }
+
+  /* Neutral fallback image so a missing/broken photo never shows a broken icon. */
+  var FALLBACK_IMG = 'assets/nss_logo.png';
+
+  function loadMagazineData() {
+    if (window.NSS && window.NSS.getData) {
+      return window.NSS.getData().then(function (data) {
+        magData = (data && data.magazine) || null;
+        pagesData = (magData && magData.pages) || [];
+        dataReady = true;
+        return pagesData;
+      });
     }
-  ];
+    dataReady = true;
+    return Promise.resolve(pagesData);
+  }
 
   /* ── State ── */
   let currentFlip = 0;   // which page index is next to flip
   let isOpened = false;   // has cover been flipped open?
   let isAtBack = false;   // is back cover showing?
-  const totalFlippable = pagesData.length + 1; // cover + content pages
+  // (Session 5 fix) totalFlippable was computed once at parse time when
+  // pagesData was still empty, so it always equalled 1 and the magazine could
+  // never flip past the cover. Now it is derived live from the loaded pages.
+  function getTotalFlippable() { return pagesData.length + 1; } // cover + content pages
 
   let overlay = null;
 
@@ -47,24 +49,29 @@
     const el = document.createElement('div');
     el.className = 'book-overlay';
     el.id = 'magazine-viewer';
+    el.setAttribute('role', 'dialog');
+    el.setAttribute('aria-modal', 'true');
+    el.setAttribute('aria-label', 'NSS magazine viewer');
 
     let pagesHTML = '';
 
     // Page 0: FRONT COVER
+    const cover = (magData && magData.cover) || {};
+    const foreword = (magData && magData.foreword) || 'Welcome to the inaugural edition of our NSS Magazine. This visual journey captures the heart and soul of our unit\'s impact on community and nation.';
     pagesHTML += `
-      <div class="book-page" data-index="0" style="z-index: ${totalFlippable + 1};">
+      <div class="book-page" data-index="0" style="z-index: ${getTotalFlippable() + 1};">
         <div class="page-front page-cover-front">
-          <img src="assets/photos/hero_1.jpg" class="cover-photo" alt="">
+          <img src="${esc(cover.image || 'assets/photos/hero_1.jpg')}" class="cover-photo" alt="NSS magazine front cover" onerror="this.onerror=null; this.src='assets/nss_logo.png';">
           <div class="cover-content">
-            <img src="assets/nss_logo.png" alt="NSS" class="cover-logo">
-            <h2>NSS MAGAZINE</h2>
+            <img src="${esc(cover.logo || 'assets/nss_logo.png')}" alt="NSS" class="cover-logo" onerror="this.onerror=null; this.src='assets/nss_logo.png';">
+            <h2>${esc(cover.title || 'NSS MAGAZINE')}</h2>
           </div>
         </div>
         <div class="page-back">
           <div class="page-content">
-            <img src="assets/photos/hero_1.jpg" class="page-img" alt="">
+            <img src="${esc(cover.image || 'assets/photos/hero_1.jpg')}" class="page-img" alt="Magazine foreword photo" onerror="this.onerror=null; this.src='assets/nss_logo.png';">
             <div class="page-title">Foreword</div>
-            <p class="page-desc">Welcome to the inaugural edition of our NSS Magazine. This visual journey captures the heart and soul of our unit's impact on community and nation.</p>
+            <p class="page-desc">${esc(foreword)}</p>
             <span class="page-number">1</span>
           </div>
         </div>
@@ -73,22 +80,24 @@
     // Pages 1..n: CONTENT (last one has JAI HIND on back)
     pagesData.forEach((p, i) => {
       const isLast = (i === pagesData.length - 1);
+      const front = p.front || {};
+      const back = p.back || {};
       pagesHTML += `
-        <div class="book-page" data-index="${i + 1}" style="z-index: ${totalFlippable - i};">
+        <div class="book-page" data-index="${i + 1}" style="z-index: ${getTotalFlippable() - i};">
           <div class="page-front">
             <div class="page-content">
-              <img src="${p.front.img}" class="page-img" alt="">
-              <div class="page-title">${p.front.title}</div>
-              <p class="page-desc">${p.front.desc}</p>
+              <img src="${esc(front.image)}" class="page-img" alt="${esc(front.title || 'Magazine page')}" onerror="this.onerror=null; this.src='assets/nss_logo.png';">
+              <div class="page-title">${esc(front.title)}</div>
+              <p class="page-desc">${esc(front.description)}</p>
               <span class="page-number">${(i + 1) * 2}</span>
             </div>
           </div>
           <div class="page-back ${isLast ? 'page-back-hind' : ''}">
             ${isLast ? `<div class="hind-text">JAI HIND</div>` : `
             <div class="page-content">
-              <img src="${p.back.img}" class="page-img" alt="">
-              <div class="page-title">${p.back.title}</div>
-              <p class="page-desc">${p.back.desc}</p>
+              <img src="${esc(back.image)}" class="page-img" alt="${esc(back.title || 'Magazine page')}" onerror="this.onerror=null; this.src='assets/nss_logo.png';">
+              <div class="page-title">${esc(back.title)}</div>
+              <p class="page-desc">${esc(back.description)}</p>
               <span class="page-number">${(i + 1) * 2 + 1}</span>
             </div>`}
           </div>
@@ -148,7 +157,7 @@
     }
 
     prevBtn.disabled = (currentFlip <= 0);
-    nextBtn.disabled = (currentFlip >= totalFlippable);
+    nextBtn.disabled = (currentFlip >= getTotalFlippable());
   }
 
   /* ═══════════════════════════
@@ -189,7 +198,7 @@
      ═══════════════════════════ */
 
   function flipForward() {
-    if (currentFlip >= totalFlippable) return;
+    if (currentFlip >= getTotalFlippable()) return;
 
     const pageEl = document.querySelector(`.book-page[data-index="${currentFlip}"]`);
     if (!pageEl) return;
@@ -207,7 +216,7 @@
       updateLeftContent();
 
       // If we just flipped the last page, transition to back cover
-      if (currentFlip >= totalFlippable) {
+      if (currentFlip >= getTotalFlippable()) {
         transitionToBack();
       }
 
@@ -251,14 +260,26 @@
      ═══════════════════════════ */
 
   function openViewer() {
+    if (!dataReady) {
+      loadMagazineData().then(() => {
+        if (!overlay) overlay = buildViewer();
+        showViewer();
+      });
+      return;
+    }
     if (!overlay) overlay = buildViewer();
+    showViewer();
+  }
 
+  function showViewer() {
     // Reset everything
     currentFlip = 0;
     isOpened = false;
     isAtBack = false;
 
     const container = document.getElementById('book-container');
+    if (!container) return;
+
     container.className = 'book-container state-closed';
 
     document.querySelectorAll('.book-page').forEach(p => {
@@ -272,6 +293,8 @@
     overlay.classList.add('active');
     document.body.style.overflow = 'hidden';
     attachEvents();
+    const closeBtn = document.getElementById('book-close');
+    if (closeBtn) closeBtn.focus();
   }
 
   function closeViewer() {
@@ -379,10 +402,12 @@
     });
   }
 
-  /* ── Init: attach to magazine cards ── */
+  /* ── Init: load data, then attach to magazine cards ── */
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.magazine-card').forEach(card => {
-      card.addEventListener('click', openViewer);
+    loadMagazineData().then(() => {
+      document.querySelectorAll('.magazine-card').forEach(card => {
+        card.addEventListener('click', openViewer);
+      });
     });
   });
 

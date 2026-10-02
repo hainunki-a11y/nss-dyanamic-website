@@ -1,8 +1,16 @@
 # NSS TSEC Mumbai — National Service Scheme
 
-> *"Not Me, But You."*
+> **NOTE — this document was auto-generated during Session 1 from the *original static* codebase.
+> The project has since become data-driven (Sessions 2–5). The **canonical README is
+> `README.md`** — treat this file as a historical/technical deep-dive only. For the current
+> architecture, data layer, and CMS, see `README.md`, `docs/ARCHITECTURE.md`, `docs/DATA_SCHEMA.md`,
+> and `docs/ADMIN_GUIDE.md`.**
 
 A premium, cinematic, **static multi-page website** for the **National Service Scheme (NSS)** unit of **Thakur Shyamnarayan Engineering College (TSEC), Mumbai**. The site showcases the unit's events, leadership team, volunteer testimonials, and a custom interactive 3D magazine — all built with plain HTML5, CSS3, and vanilla JavaScript, enhanced with **GSAP / ScrollTrigger** scroll animations and **Lottie** vector animations.
+
+> **Updated for the current build:** the site is now **data-driven** — all content lives in
+> `data/` as JSON (single source of truth), is read at runtime by the renderers, and is edited
+> through the **Sveltia CMS admin** at `/admin/`. See `README.md` for the current overview.
 
 This documentation was **generated automatically** from the actual source files. The original repository is [Bhavesh1411/NSS-Website](https://github.com/Bhavesh1411/NSS-Website).
 
@@ -17,9 +25,9 @@ This documentation was **generated automatically** from the actual source files.
 | **Hero Slider** | Full-screen cross-fading image slider with Ken Burns effect, arrows, dots, autoplay — `hero.css` + `script.js:L52`. |
 | **About NSS** | Two-column "Who We Are" section with animated logo and Lottie accent. |
 | **Objectives** | 4-card grid with slide-up hover overlays and scroll-triggered entrance. |
-| **Events (Home)** | Hardcoded card grid for the active academic year (2026-27). |
-| **Events (Timeline)** | `events.html` — interactive horizontal timeline grouped by month, with category filter chips, live search, an "All Events" data table, and an image lightbox. Fully data-driven from `NSS_EVENTS` / `NSS_EVENTS_2026_27` arrays — `events-timeline.js`. |
-| **Events (Calendar)** | Homepage archive tab (currently hidden) — a navigable month calendar widget with event-day highlights and detail panel — `events-calendar.js`. |
+| **Events (Home)** | Event grid for the active academic year (2026-27) — rendered from `data/events/2026-27/` by `renderHome.js`. |
+| **Events (Timeline)** | `events.html` — interactive horizontal timeline grouped by month, with category filter chips, live search, an "All Events" data table, and an image lightbox. Fully data-driven from `data/events/2025-26/` + `data/events/2026-27/` — `events-timeline.js`. |
+| **Events (Calendar)** | Homepage archive tab (currently hidden) — a navigable month calendar widget with event-day highlights and detail panel — `events-calendar.js` (reads `data/events/2025-26/`). |
 | **3D Magazine Viewer** | Custom full-screen interactive book: CSS 3D page-flip with drag, click, keyboard, and touch support — `magazine.js` / `magazine.css`. |
 | **Teams / Leadership** | Faculty advisors, five-frame faculty grid, leadership row, infinite marquee slideshow for the council, and a core-committee table — `teams.html` + `style.css`. |
 | **Testimonials** | Card grid + GSAP-staggered entrance + reusable animated modal — `testimonials.html` / `testimonials.js` / `testimonials.css`. |
@@ -141,7 +149,13 @@ graph TD
     H & E & T & M --> FONTS
 ```
 
-> **Rendering strategy:** Static HTML for structure + **client-side JS hydration** for dynamic content. Events are injected into the DOM by `events-timeline.js`; the magazine viewer is built entirely at runtime by `magazine.js`; the calendar is rendered by `events-calendar.js`. All data is **hardcoded arrays inside the JS files** — nothing is fetched from a server/API.
+> **Rendering strategy:** Static HTML shell + **client-side JS hydration** for dynamic content.
+> All dynamic content is read from the **`data/` folder** (JSON, single source of truth) via the
+> shared loader `data.js` (`window.NSS.getData()` / `getEvents()`), then injected into the DOM by
+> the renderers (`renderHome.js`, `renderTeams.js`, `renderTestimonials.js`, `events-timeline.js`,
+> `events-calendar.js`, `magazine.js`, `intro.js`). There are **no hardcoded content arrays** in
+> the JS, and the same `data/` files are edited through the **CMS admin** at `/admin/`.
+> `data.js` also embeds an offline fallback snapshot so pages still render if `/data/*` fetch fails.
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the detailed breakdown and data-flow diagrams.
 
@@ -188,25 +202,26 @@ Because the site is 100% static, it deploys to any static host by uploading/push
 
 ## 🗃️ Data Schemas
 
-### Events (`events-timeline.js`)
-```js
+### Events (`data/events/<year>/*.json`)
+```json
 {
-  date:  '21 Feb 2026',          // "DD Mon YYYY" (parseable by new Date and custom parser)
-  title: "Day 2 Hackspark's 2.0",
-  tag:   'Hackathon',            // matched against CATEGORY_ICON map
-  venue: 'TSEC',                 // optional (2026-27 only)
-  photo: 'assets/Events/....jpg' // optional; shows lightbox + 📷 in table
+  "date":  "21 Feb 2026",          // "DD Mon YYYY" (parseable by new Date and custom parser)
+  "title": "Day 2 Hackspark's 2.0",
+  "tag":   "Hackathon",            // matched against data/category-icons.json
+  "venue": "TSEC",                 // optional (2026-27 only)
+  "photo": "assets/Events/....jpg", // optional; shows lightbox + 📷 in table
+  "order": 1
 }
 ```
-Stored in two top-level arrays: `NSS_EVENTS` (2025-26) and `NSS_EVENTS_2026_27`.
+Stored as one JSON file per event in `data/events/2025-26/` (37) and `data/events/2026-27/` (14).
 
-### Testimonials (`testimonials.html`)
-Not a JS array — each testimonial is a hardcoded `.testimonial-card` block. Fields: avatar `<img>`, `.volunteer-role`, `.volunteer-year`, `.volunteer-name`, `.volunteer-thought`, and a `.read-more-btn[data-id]`.
+### Testimonials (`data/testimonials.json`)
+Rendered from `data/testimonials.json` (`items[]`) by `renderTestimonials.js`. Fields: `name`, `role`, `year`, `thought`, `avatar`, `order`.
 
-### Teams (`teams.html`)
-Hardcoded HTML cards/table. Card = `<img>` + `.team-info` (name, role). Council is rendered as a marquee slideshow; leadership/faculty as cards; committee as a `<table>`.
+### Teams (`data/team-members.json`)
+Rendered from `data/team-members.json` (`sections.{faculty,leadership,council,committee}`) by `renderTeams.js`. Council is rendered as a marquee slideshow; leadership/faculty as cards; committee as a `<table>`.
 
-Full schemas and "how to add data" guides: [docs/EVENT_SYSTEM.md](docs/EVENT_SYSTEM.md), [docs/TEAMS_AND_TESTIMONIALS.md](docs/TEAMS_AND_TESTIMONIALS.md).
+Full schemas and "how to add data" guides: [docs/EVENT_SYSTEM.md](docs/EVENT_SYSTEM.md), [docs/TEAMS_AND_TESTIMONIALS.md](docs/TEAMS_AND_TESTIMONIALS.md), [docs/DATA_SCHEMA.md](docs/DATA_SCHEMA.md).
 
 ---
 
@@ -214,10 +229,9 @@ Full schemas and "how to add data" guides: [docs/EVENT_SYSTEM.md](docs/EVENT_SYS
 
 - **No `package.json` / build tooling** — everything is hand-authored and CDN-loaded (no version pinning reproducibility, no minification/bundling).
 - **No `LICENSE` file.**
-- **No `.gitignore`, CI/CD configs, or tests.**
-- **Data duplication:** the same event set is duplicated in `events-calendar.js` and `events-timeline.js`, and the homepage events are hardcoded in `index.html` — a maintenance risk.
 - **Placeholder images** (`https://placehold.co/...`) are used for most council/leadership members and several testimonials.
 - Two unvisited sections on the homepage are hidden with `display: none`: the **calendar tab** and the **magazine section** (marked "do not delete").
+- **Note (Sessions 2–5):** the old data-duplication problem is **fixed** — events, teams, testimonials, magazine, hero slides, objectives, and category icons are now single-sourced in `data/` (no duplicated arrays, no hardcoded homepage grid).
 
 A full, prioritized list is in [docs/IMPROVEMENTS.md](docs/IMPROVEMENTS.md).
 

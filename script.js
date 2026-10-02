@@ -3,7 +3,7 @@
   Powered by GSAP 
 */
 
-document.addEventListener('DOMContentLoaded', () => {
+function runSiteJS() {
   // Register GSAP Plugins
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
@@ -296,17 +296,23 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Footer Entrance Animation
+  // index.html wraps the footer grid in `.footer-main-grid`; the other pages
+  // use `.footer-grid` directly. Target whichever one is present so GSAP never
+  // logs a "target not found" warning on teams/events/testimonials.
   if (document.querySelector('.footer')) {
-    gsap.from('.footer-main-grid', {
-      scrollTrigger: {
-        trigger: '.footer',
-        start: 'top 90%'
-      },
-      opacity: 0,
-      y: 30,
-      duration: 1.2,
-      ease: 'power3.out'
-    });
+    const footerGrid = document.querySelector('.footer-main-grid') || document.querySelector('.footer-grid');
+    if (footerGrid) {
+      gsap.from(footerGrid, {
+        scrollTrigger: {
+          trigger: '.footer',
+          start: 'top 90%'
+        },
+        opacity: 0,
+        y: 30,
+        duration: 1.2,
+        ease: 'power3.out'
+      });
+    }
   }
 
   // --- Upgraded Horizontal Council & Slideshow ---
@@ -367,4 +373,14 @@ document.addEventListener('DOMContentLoaded', () => {
       delay: 0.3
     });
   });
+}
+
+// Run after the DOM is ready AND after page renderers have built the
+// content (so GSAP targets elements that actually exist).
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.NSS && window.NSS.onRendered) {
+    window.NSS.onRendered(runSiteJS);
+  } else {
+    runSiteJS();
+  }
 });

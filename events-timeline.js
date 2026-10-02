@@ -3,8 +3,11 @@
   Horizontal Calendar Strip · Click-to-reveal cards · Lightbox
 */
 
-/* ─── Category → Emoji map ─── */
-const CATEGORY_ICON = {
+/* ─── Category → Emoji map ───
+   (Session 5) Now read from data/category-icons.json so CMS edits to the
+   icon map actually take effect. A small built-in default covers the known
+   tags in case the data is empty or unavailable. */
+const DEFAULT_CATEGORY_ICON = {
   'hackathon':       '💻',
   'health drive':    '❤️',
   'cultural event':  '🎭',
@@ -20,90 +23,45 @@ const CATEGORY_ICON = {
   'orientation':     '🎯',
 };
 
+let CATEGORY_ICON = DEFAULT_CATEGORY_ICON;
+
 function getCategoryIcon(tag) {
-  return CATEGORY_ICON[tag.toLowerCase()] || '📌';
+  return (CATEGORY_ICON && CATEGORY_ICON[String(tag || '').toLowerCase()]) || '📌';
 }
 
-/* ─── All NSS Events Data (2025-26) ─── */
-const NSS_EVENTS = [
-  /* February 2026 */
-  { date: '21 Feb 2026', title: "Day 2 Hackspark's 2.0",          tag: 'Hackathon'       },
-  { date: '20 Feb 2026', title: "Day 1 Hackspark's 2.0",          tag: 'Hackathon'       },
-  { date: '06 Feb 2026', title: 'Blood Donation Camp',             tag: 'Health Drive'    },
+/* ─── XSS-safe text escaping (Session 5) ───
+   Every text value rendered into the DOM from data must pass through
+   escapeHtml so a malicious value in the CMS can never inject markup. */
+function esc(s) {
+  return (window.NSS && window.NSS.escapeHtml) ? window.NSS.escapeHtml(s) : String(s == null ? '' : s);
+}
 
-  /* January 2026 */
-  { date: '31 Jan 2026', title: 'AAROHAN',                         tag: 'Cultural Event'  },
-  { date: '30 Jan 2026', title: 'AAROHAN',                         tag: 'Cultural Event'  },
-  { date: '30 Jan 2026', title: 'Medical Checkup Camp',            tag: 'Health Drive'    },
-  { date: '29 Jan 2026', title: 'FE SSC Awareness Program',        tag: 'Awareness'       },
-  { date: '29 Jan 2026', title: 'AAROHAN',                         tag: 'Cultural Event'  },
-  { date: '28 Jan 2026', title: 'TPC Guide on Future Seminar',     tag: 'Seminar'         },
-  { date: '17 Jan 2026', title: 'Aventura',                        tag: 'Event Series'    },
-  { date: '15 Jan 2026', title: 'Aventura',                        tag: 'Event Series'    },
-  { date: '14 Jan 2026', title: 'Aventura',                        tag: 'Event Series'    },
-  { date: '13 Jan 2026', title: 'Aventura',                        tag: 'Event Series'    },
-  { date: '12 Jan 2026', title: 'Aventura',                        tag: 'Event Series'    },
-  { date: '07 Jan 2026', title: 'Women Health Awareness',          tag: 'Awareness'       },
-  { date: '05 Jan 2026', title: 'Voting Awareness',                tag: 'Awareness'       },
+/* ─── Events data is fetched from /data/events/<year> (Session 3) ───
+   `eventsByYear` holds the sorted (newest-first) arrays. The original
+   hardcoded arrays were ordered newest month first, newest day first, so a
+   stable descending-by-date sort reproduces the exact same layout. */
+const eventsByYear = {};
 
-  /* December 2025 */
-  { date: '22 Dec 2025', title: 'Youth Mental Health & Suicide Prevention Awareness', tag: 'Awareness' },
-  { date: '19 Dec 2025', title: 'Awareness On Street Dogs',        tag: 'Awareness'       },
+function sortEventsNewestFirst(events) {
+  return [...(events || [])].sort((a, b) => new Date(b.date) - new Date(a.date));
+}
 
-  /* November 2025 */
-  { date: '19 Nov 2025', title: 'Reforming the Justice System',    tag: 'Seminar'         },
-  { date: '07 Nov 2025', title: '150 Years Grand Vande Mataram Singing', tag: 'Patriotic Event', photo: 'assets/Events/150 years grand vande mataram.jpeg' },
-
-  /* October 2025 */
-  { date: '30 Oct 2025', title: 'Pledge on National Unity Day',    tag: 'Patriotic Event', photo: 'assets/Events/Unity Day.jpeg' },
-  { date: '17 Oct 2025', title: 'Prarambh Sports Day',             tag: 'Sports'          },
-  { date: '03 Oct 2025', title: 'Tree Plantation Drive',           tag: 'Environment',     photo: 'assets/Events/tree plantation.jpg' },
-
-  /* September 2025 */
-  { date: '26 Sep 2025', title: 'Smart India Hackathon',           tag: 'Hackathon'       },
-  { date: '25 Sep 2025', title: 'Oath Ceremony',                   tag: 'Ceremony'        },
-  { date: '24 Sep 2025', title: 'NSS Day',                         tag: 'Celebration',     photo: 'assets/Events/NSS Day.jpeg' },
-  { date: '20 Sep 2025', title: 'Beach Cleaning Drive',            tag: 'Environment',     photo: 'assets/Events/BEach cleaning drive.jpeg' },
-  { date: '16 Sep 2025', title: 'FE Orientation',                  tag: 'Orientation',     photo: 'assets/Events/nss-orientation.jpg' },
-  { date: '05 Sep 2025', title: 'Teachers Day',                    tag: 'Celebration'     },
-
-  /* August 2025 */
-  { date: '02 Sep 2025', title: 'Ganpati Visarjan 7 Day',          tag: 'Cultural Event',  photo: 'assets/Events/Ganpati Visarjan day 7.jpeg' },
-  { date: '31 Aug 2025', title: 'Ganpati Visarjan 5 Day',          tag: 'Cultural Event',  photo: 'assets/Events/Ganapati day 5.jpeg' },
-  { date: '25 Aug 2025', title: 'Seminar on Communication Skills', tag: 'Seminar'         },
-  { date: '15 Aug 2025', title: 'Flag Hoisting',                   tag: 'Patriotic Event', photo: 'assets/Events/Independence day.jpeg' },
-
-  /* July 2025 */
-  { date: '29 Jul 2025', title: 'Seminar on Preparing Engineers for Industry Expectations', tag: 'Seminar' },
-  { date: '21 Jul 2025', title: 'Seminar on NPTEL',                tag: 'Seminar'         },
-  { date: '11 Jul 2025', title: 'CPR Training',                    tag: 'Health Drive'    },
-  { date: '11 Jul 2025', title: 'Health Checkup Camp',             tag: 'Health Drive',    photo: 'assets/Events/health-checkup.jpg' },
-];
-
-/* ─── All NSS Events Data (2026-27) ─── */
-const NSS_EVENTS_2026_27 = [
-  /* September 2026 */
-  { date: '27 Sep 2026', title: 'Beach Cleaning Gorai',                    tag: 'Environment',     venue: 'Gorai',                      photo: 'assets/Events/beach-cleaning.jpeg' },
-  { date: '25 Sep 2026', title: 'Helping Traffic Management in Visarjan',  tag: 'Social Service',  venue: 'Mumbai',                     photo: 'assets/Events/traffic management ganpati vishrajan.jpg' },
-  { date: '24 Sep 2026', title: 'Karuna',                                  tag: 'Celebration',     venue: 'TSEC',                       photo: 'assets/Events/Karuna 2026.jpg' },
-  { date: '18 Sep 2026', title: 'Ganpati Visarjan',                        tag: 'Cultural Event',  venue: 'Mumbai',                     photo: 'assets/Events/ganpati vishrajan.jpg' },
-  { date: '15 Sep 2026', title: 'Ganpati Visarjan',                        tag: 'Cultural Event',  venue: 'Mumbai',                     photo: 'assets/Events/ganpati vishrajan.jpg' },
-
-  /* August 2026 */
-  { date: '25 Aug 2026', title: 'SGNP Kanheri Caves Visit',                tag: 'Environment',     venue: 'Sanjay Gandhi National Park', photo: 'assets/Events/kanheri caves.jpg' },
-  { date: '15 Aug 2026', title: 'Independence Day',                        tag: 'Patriotic Event', venue: 'TSEC',                       photo: 'assets/Events/independence day.jpg' },
-  { date: '14 Aug 2026', title: 'Health Checkup Camp',                     tag: 'Health Drive',    venue: 'TSEC',                       photo: 'assets/Events/health-checkup.jpg' },
-  { date: '12 Aug 2026', title: 'Tree Plantation Drive',                   tag: 'Environment',     venue: 'Borivali West',              photo: 'assets/Events/tree plantation.jpg' },
-  { date: '08 Aug 2026', title: 'SGNP Awareness Program',                  tag: 'Awareness',       venue: 'Sanjay Gandhi National Park', photo: 'assets/Events/sgnp awareness.jpg' },
-
-  /* July 2026 */
-  { date: '31 Jul 2026', title: 'NSS Orientation',                         tag: 'Orientation',     venue: 'TSEC',                       photo: 'assets/Events/nss-orientation.jpg' },
-  { date: '30 Jul 2026', title: 'Nasha Mukti Awareness',                   tag: 'Awareness',       venue: 'TSEC',                       photo: 'assets/Events/nasha-mukti.jpg' },
-  { date: '24 Jul 2026', title: 'Kargil Diwas Celebration',                tag: 'Patriotic Event', venue: 'TSEC',                       photo: 'assets/Events/Kargil Diwas.jpg' },
-
-  /* June 2026 */
-  { date: '21 Jun 2026', title: 'International Yoga Day',                  tag: 'Health Drive',    venue: 'TSEC',                       photo: 'assets/Events/international-yoga day.jpg' }
-];
+function loadEventsData() {
+  const years = ['2025-26', '2026-27'];
+  return Promise.all(
+    years.map(year =>
+      window.NSS.getEvents(year).then(list => {
+        eventsByYear[year] = sortEventsNewestFirst(list);
+      })
+    ).concat([
+      window.NSS.getData().then(function (data) {
+        if (window.NSS.renderFooter) window.NSS.renderFooter(data);
+        var icons = (data && data.categoryIcons && data.categoryIcons.icons) || null;
+        if (icons && Object.keys(icons).length) CATEGORY_ICON = icons;
+      })
+    ])
+  );
+}
 
 /* ─── Group events by "Month YYYY" ─── */
 function groupByMonth(events) {
@@ -123,20 +81,20 @@ function groupByMonth(events) {
 /* ─── Build card inner HTML ─── */
 function buildCardHTML(ev) {
   const icon = getCategoryIcon(ev.tag);
-  const venueHTML = ev.venue ? `<p class="card-venue" style="font-size: 0.75rem; color: #555; margin-top: 4px;">📍 ${ev.venue}</p>` : '';
+  const venueHTML = ev.venue ? `<p class="card-venue" style="font-size: 0.75rem; color: #555; margin-top: 4px;">📍 ${esc(ev.venue)}</p>` : '';
   return `
     <div class="card-icon">${icon}</div>
     <div class="card-body">
-      <span class="card-date-badge">${ev.date}</span>
-      <h4 class="card-title">${ev.title}</h4>
-      <p class="card-tag">${ev.tag}</p>
+      <span class="card-date-badge">${esc(ev.date)}</span>
+      <h4 class="card-title">${esc(ev.title)}</h4>
+      <p class="card-tag">${esc(ev.tag)}</p>
       ${venueHTML}
     </div>
     <button
       class="card-view-btn"
-      aria-label="View photo for ${ev.title}"
+      aria-label="View photo for ${esc(ev.title)}"
       title="View Photo"
-      data-img="${ev.photo ? ev.photo : 'https://placehold.co/800x600'}"
+      data-img="${esc(ev.photo ? ev.photo : 'https://placehold.co/800x600')}"
     >&#128247;</button>`;
 }
 
@@ -153,20 +111,20 @@ function buildMonthBlock(monthLabel, events, monthIndex) {
         class="strip-node${isFirst ? ' is-active' : ''}"
         data-month="${monthIndex}"
         data-event="${i}"
-        aria-label="View event: ${ev.title} on ${ev.date}"
+        aria-label="View event: ${esc(ev.title)} on ${esc(ev.date)}"
         aria-pressed="${isFirst ? 'true' : 'false'}"
         id="node-m${monthIndex}-e${i}"
-      ><div class="node-dot"></div><div class="node-tick"></div><div class="node-date">${dateShort}</div><div class="node-title">${ev.title}</div></button>`;
+      ><div class="node-dot"></div><div class="node-tick"></div><div class="node-date">${esc(dateShort)}</div><div class="node-title">${esc(ev.title)}</div></button>`;
   }).join('\n');
 
   const firstCardHTML = buildCardHTML(events[0]);
 
   return `<div class="month-block" data-month="${monthIndex}">
       <div class="month-meta">
-        <h3 class="month-heading">${monthName} <span>${year}</span></h3>
+        <h3 class="month-heading">${esc(monthName)} <span>${esc(year)}</span></h3>
         <span class="event-count-badge">${events.length} event${events.length > 1 ? 's' : ''}</span>
       </div>
-      <div class="strip-scroll-wrapper" role="region" aria-label="${monthLabel} events timeline">
+      <div class="strip-scroll-wrapper" role="region" aria-label="${esc(monthLabel)} events timeline">
         <div class="strip-track">${nodes}</div>
       </div>
       <div class="month-event-display" id="display-m${monthIndex}" aria-live="polite">
@@ -233,20 +191,20 @@ function renderAcademicYear(eventsArray) {
       
       const srNo = index + 1;
       const isClickable = ev.photo ? 'has-photo' : '';
-      const photoAttr = ev.photo ? `data-img="${ev.photo}"` : '';
+      const photoAttr = ev.photo ? `data-img="${esc(ev.photo)}"` : '';
       const iconMarkup = ev.photo ? '<span class="photo-indicator" aria-hidden="true">📷</span>' : '';
-      const venueMarkup = ev.venue ? `<br><small style="color: #666; font-size: 0.8em;">📍 ${ev.venue}</small>` : '';
+      const venueMarkup = ev.venue ? `<br><small style="color: #666; font-size: 0.8em;">📍 ${esc(ev.venue)}</small>` : '';
       
       tr.innerHTML = `
         <td>${srNo}</td>
         <td>
-          <button class="table-event-link ${isClickable}" ${photoAttr} aria-label="${ev.title}">
-            ${ev.title} ${iconMarkup}
+          <button class="table-event-link ${isClickable}" ${photoAttr} aria-label="${esc(ev.title)}">
+            ${esc(ev.title)} ${iconMarkup}
           </button>
           ${venueMarkup}
         </td>
-        <td>${ev.date}</td>
-        <td><span class="table-cat-badge">${ev.tag}</span></td>
+        <td>${esc(ev.date)}</td>
+        <td><span class="table-cat-badge">${esc(ev.tag)}</span></td>
       `;
       tableBody.appendChild(tr);
     });
@@ -344,30 +302,39 @@ function applyFilters() {
 }
 
 /* ─── Main DOMContentLoaded ─── */
+if (window.NSS && window.NSS.markRendering) window.NSS.markRendering();
+
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── 0. Initial Render ── */
-  renderAcademicYear(NSS_EVENTS);
+  /* ── 0. Load event data asynchronously, then render + wire up ── */
+  if (!window.NSS || !window.NSS.getEvents) return;
+  loadEventsData().then(() => {
 
-  /* ── 1. Academic Year Tab Switching ── */
-  const yearTabs = document.querySelectorAll('.year-tab');
-  
-  yearTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      // Avoid re-rendering if already active
-      if(tab.classList.contains('is-active')) return;
-      
-      yearTabs.forEach(t => t.classList.remove('is-active'));
-      tab.classList.add('is-active');
+    const NSS_EVENTS = eventsByYear['2025-26'] || [];
+    const NSS_EVENTS_2026_27 = eventsByYear['2026-27'] || [];
 
-      const year = tab.dataset.year;
-      if (year === '2025-26') {
-        renderAcademicYear(NSS_EVENTS);
-      } else if (year === '2026-27') {
-        renderAcademicYear(NSS_EVENTS_2026_27);
-      }
+    /* ── 0. Initial Render ── */
+    renderAcademicYear(NSS_EVENTS);
+
+    /* ── 1. Academic Year Tab Switching ── */
+    const yearTabs = document.querySelectorAll('.year-tab');
+
+    yearTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Avoid re-rendering if already active
+        if(tab.classList.contains('is-active')) return;
+
+        yearTabs.forEach(t => t.classList.remove('is-active'));
+        tab.classList.add('is-active');
+
+        const year = tab.dataset.year;
+        if (year === '2025-26') {
+          renderAcademicYear(NSS_EVENTS);
+        } else if (year === '2026-27') {
+          renderAcademicYear(NSS_EVENTS_2026_27);
+        }
+      });
     });
-  });
 
   /* ── 2. Filter Event Listeners ── */
   const chipsContainer = document.getElementById('filter-chips');
@@ -439,6 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function openLightbox(src) {
     if (!lightbox || !lightboxImg) return;
+    lightboxImg.onerror = () => { lightboxImg.src = 'assets/nss_logo.png'; };
     lightboxImg.src = src;
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -503,4 +471,9 @@ document.addEventListener('DOMContentLoaded', () => {
       openLightbox(btn.dataset.img);
     });
   }
+
+    /* ── 6. Signal that rendering is complete so GSAP can run ── */
+    if (window.NSS && window.NSS.renderComplete) window.NSS.renderComplete();
+
+  });
 });

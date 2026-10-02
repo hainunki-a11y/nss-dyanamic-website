@@ -28,11 +28,15 @@ When you **save** a change in the admin:
 ## 2. Logging in
 
 1. Open the admin page at: **`https://nss-website-pink.vercel.app/admin/`**
-2. Click **"Sign in with GitHub"**.
-3. You will be asked to authorize the app — click **Authorize**.
-4. You are now in the admin.
+2. Sign in with GitHub. There are two ways (the tech lead will tell you which to use):
+   - **With a token** (recommended setup): click **"Sign in with Token"**, then paste a
+     **fine-grained personal access token** created for this repo (see `ADMIN_SETUP.md` §4).
+   - **With OAuth** (if the tech lead set up an OAuth App): click **"Sign in with GitHub"**
+     and click **Authorize**.
+3. You are now in the admin.
 
-> **Only invited team members can get in.** If you can't log in, the owner needs to add you as a **repo contributor** on GitHub (see `ADMIN_SETUP.md`).
+> **Only invited team members can get in.** If you can't log in, the owner needs to add you
+> as a **repo contributor** on GitHub (see `ADMIN_SETUP.md`).
 
 ---
 

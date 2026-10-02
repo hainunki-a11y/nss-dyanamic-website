@@ -3,7 +3,7 @@
   Powered by GSAP & ScrollTrigger
 */
 
-document.addEventListener('DOMContentLoaded', () => {
+function runTestimonialsJS() {
     // 1. --- GSAP ANIMATIONS ---
     gsap.registerPlugin(ScrollTrigger);
 
@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Populate modal
             modalImg.src = img;
+            modalImg.alt = name ? ('Portrait of ' + name) : 'Testimonial avatar';
             modalName.innerText = name;
             modalRoleYear.innerText = `${role} | ${year}`;
             modalThought.innerText = thought;
@@ -67,6 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             modal.classList.remove('closing');
             modal.classList.add('active');
             document.body.style.overflow = 'hidden'; // Stop scrolling
+            if (closeBtn) closeBtn.focus();
         });
     });
 
@@ -96,4 +98,14 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }
     });
+}
+
+// Wait until the cards are rendered (renderTestimonials.js) before wiring up
+// the modal + animations so they can find the rendered elements.
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.NSS && window.NSS.onRendered) {
+        window.NSS.onRendered(runTestimonialsJS);
+    } else {
+        runTestimonialsJS();
+    }
 });

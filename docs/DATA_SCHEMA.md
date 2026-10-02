@@ -154,7 +154,7 @@ Replaces the `pagesData` array in `magazine.js`.
       { "name": "Devkar Susmita", "role": "PR & Team Lead", "photo": "...", "quote": "NSS TSEC", "order": 1 }
     ],
     "committee": [
-      { "name": "Bhavesh Chaudhary", "designation": "NSS Leader" }
+      { "name": "Bhavesh Chaudhary", "designation": "NSS Leader", "order": 1 }
     ]
   }
 }

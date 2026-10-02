@@ -26,6 +26,8 @@
   <script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 </head>
 <body>
+  <!-- Shared data loader (must load before every renderer) -->
+  <script src="data.js"></script>
   <!-- Cinematic First-Load Intro (homepage, session-once) -->
   <script src="intro.js"></script>
   <!-- Preloader & Offline Screen -->
@@ -59,34 +61,10 @@
       <div id="hero-slider" class="hero-slider">
         <!-- Text Overlay -->
         <div class="hero-content">
-          <h1 class="hero-title">TSEC-NSS UNIT</h1>
-          <p class="hero-quote">NOT ME BUT YOU</p>
+          <h1 class="hero-title"></h1>
+          <p class="hero-quote"></p>
         </div>
-        
-        <!-- Slide 1 -->
-        <div class="slide active">
-          <div class="slide-bg" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('assets/photos/hero_1.jpg');"></div>
-        </div>
-
-        <!-- Slide 2 -->
-        <div class="slide">
-          <div class="slide-bg" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('assets/photos/hero_2.jpg');"></div>
-        </div>
-
-        <!-- Slide 3 -->
-        <div class="slide">
-          <div class="slide-bg" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('assets/photos/hero_3.png');"></div>
-        </div>
-
-        <!-- Slide 4 -->
-        <div class="slide">
-          <div class="slide-bg" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('assets/photos/hero_4.jpg');"></div>
-        </div>
-
-        <!-- Slide 5 -->
-        <div class="slide">
-          <div class="slide-bg" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('assets/photos/hero_5.jpg');"></div>
-        </div>
+        <!-- Slides are injected by renderHome.js from data/hero-slides.json -->
       </div>
 
       <!-- Slider Controls -->
@@ -115,10 +93,9 @@
 
         <!-- Right Side: Content -->
         <div class="who-we-are-content-col">
-          <h2 class="who-we-are-title">ABOUT NSS</h2>
+          <h2 class="who-we-are-title"></h2>
           <div class="who-we-are-content">
-            <p class="who-we-are-text">The National Service Scheme (NSS), a flagship programme of the Department of Youth Affairs and Sports, Government of India, operates in collaboration with the University of Mumbai. Anchored in its inspiring motto “Not Me, But You,” NSS reflects the values of democratic citizenship and altruistic service, striving to cultivate responsible, empathetic, and socially conscious youth.</p>
-            <p class="who-we-are-text">At Thakur Shyamnarayan Engineering College (TSEC), the NSS Unit was inaugurated on 21st June 2025 with an enthusiastic strength of 100 volunteers. The unit is devoted to nurturing socially responsible leaders who contribute actively to the community.</p>
+            <!-- Paragraphs injected by renderHome.js from data/site.json -->
           </div>
         </div>
       </div>
@@ -139,51 +116,12 @@
     <section id="objectives" class="objectives-section section-padding" style="position: relative; overflow: hidden;">
       <div class="container">
         <div class="objectives-header">
-          <h2 class="objectives-title">Our Objectives</h2>
-          <p class="objectives-text">The focus is on enhancing the quality of educated manpower through the cultivation of social responsibility. This entails elevating both material and moral aspects of society by preparing students for dedicated service to the nation. By immersing urban students in rural life, they gain first hand exposure to the community around their institution. The objective is to make the campus responsive to community needs, establishing a constructive link between technical education and the social and economic reconstruction of the country. This involvement contributes to national development and fosters a deeper understanding and appreciation of societal issues, encouraging active community participation.</p>
+          <h2 class="objectives-title"></h2>
+          <p class="objectives-text"></p>
         </div>
 
         <div class="objectives-grid">
-          <!-- Card 1 -->
-          <div class="objective-card">
-            <div class="card-img-container">
-              <img src="assets/photos/hero_1.jpg" alt="Community Understanding">
-              <div class="card-slide-overlay">
-                <h3 class="card-title-hover">Community Understanding</h3>
-                <p class="card-desc">Develop awareness about real-world community challenges</p>
-              </div>
-            </div>
-          </div>
-          <!-- Card 2 -->
-          <div class="objective-card">
-            <div class="card-img-container">
-              <img src="assets/photos/hero_2.jpg" alt="Assessment & Engagement">
-              <div class="card-slide-overlay">
-                <h3 class="card-title-hover">Assessment & Engagement</h3>
-                <p class="card-desc">Actively participate and analyze social needs</p>
-              </div>
-            </div>
-          </div>
-          <!-- Card 3 -->
-          <div class="objective-card">
-            <div class="card-img-container">
-              <img src="assets/photos/hero_3.png" alt="Competence Development">
-              <div class="card-slide-overlay">
-                <h3 class="card-title-hover">Competence Development</h3>
-                <p class="card-desc">Build skills through practical social work experiences</p>
-              </div>
-            </div>
-          </div>
-          <!-- Card 4 -->
-          <div class="objective-card">
-            <div class="card-img-container">
-              <img src="assets/photos/hero_4.jpg" alt="Leadership & Democracy">
-              <div class="card-slide-overlay">
-                <h3 class="card-title-hover">Leadership & Democracy</h3>
-                <p class="card-desc">Encourage leadership and democratic values among youth</p>
-              </div>
-            </div>
-          </div>
+          <!-- Cards injected by renderHome.js from data/objectives.json -->
         </div>
       </div>
 
@@ -217,125 +155,7 @@
         <!-- Tab Pane 1: Academic Year 2026-27 (Active Cards) -->
         <div id="tab-2026-27" class="events-tab-pane active">
           <div class="events-grid">
-            <!-- Card 1: Yoga Day 2026 -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/international-yoga day.jpg" alt="International Yoga Day 2026">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">International Yoga Day 2026</h3>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 2: Kargil Diwas Celebration -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/Kargil Diwas.jpg" alt="Kargil Diwas Celebration">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">Kargil Diwas Celebration</h3>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 3: Tree Plantation Drive 2026 -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/tree plantation.jpg" alt="Tree Plantation Drive 2026">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">Tree Plantation Drive 2026</h3>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 3: Independence Day 2026 -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/independence day.jpg" alt="Independence Day 2026">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">Independence Day 2026</h3>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 4: Ganpati Visarjan 2026 -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/ganpati vishrajan.jpg" alt="Ganpati Visarjan 2026">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">Ganpati Visarjan 2026</h3>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 5: Helping Traffic Management in Visarjan -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/traffic management ganpati vishrajan.jpg" alt="Helping Traffic Management in Visarjan">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">Traffic Management in Visarjan</h3>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 6: Beach Cleaning Drive -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/beach-cleaning.jpeg" alt="Beach Cleaning Drive">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">Beach Cleaning Drive</h3>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 7: Health Checkup Camp -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/health-checkup.jpg" alt="Health Checkup Camp">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">Health Checkup Camp</h3>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 9: SGNP Kanheri Caves Visit -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/kanheri caves.jpg" alt="SGNP Kanheri Caves Visit">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">SGNP Kanheri Caves Visit</h3>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 10: NSS Orientation -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/nss-orientation.jpg" alt="NSS Orientation">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">NSS Orientation</h3>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 11: Nasha Mukti Awareness -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/nasha-mukti.jpg" alt="Nasha Mukti Awareness">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">Nasha Mukti Awareness</h3>
-                </div>
-              </div>
-            </div>
-
-            <!-- Card 12: Karuna -->
-            <div class="event-card">
-              <div class="card-img-container">
-                <img src="assets/Events/Karuna 2026.jpg" alt="Karuna">
-                <div class="card-slide-overlay">
-                  <h3 class="card-title-hover">Karuna</h3>
-                </div>
-              </div>
-            </div>
+            <!-- Cards injected by renderHome.js (derived from data/events/2026-27) -->
           </div>
 
           <div style="text-align: center; margin-top: 36px;">
@@ -490,7 +310,7 @@
         </div>
 
         <div class="footer-bottom">
-          <p>&copy; 2026 NSS TSEC Mumbai. Jai Hind.</p>
+          <p data-copyright-suffix=". Jai Hind.">&copy; 2026 NSS TSEC Mumbai. Jai Hind.</p>
         </div>
       </div>
     </footer>
@@ -502,6 +322,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
   <script src="script.js"></script>
+  <script src="renderHome.js"></script>
   <script src="magazine.js"></script>
   <script src="events-calendar.js"></script>
 </body>

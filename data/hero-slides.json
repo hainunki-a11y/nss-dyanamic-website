@@ -1,0 +1,9 @@
+{
+  "slides": [
+    { "image": "assets/photos/hero_1.jpg", "alt": "Hero 1", "order": 1 },
+    { "image": "assets/photos/hero_2.jpg", "alt": "Hero 2", "order": 2 },
+    { "image": "assets/photos/hero_3.png", "alt": "Hero 3", "order": 3 },
+    { "image": "assets/photos/hero_4.jpg", "alt": "Hero 4", "order": 4 },
+    { "image": "assets/photos/hero_5.jpg", "alt": "Hero 5", "order": 5 }
+  ]
+}

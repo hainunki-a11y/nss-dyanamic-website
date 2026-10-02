@@ -1,0 +1,37 @@
+{
+  "hero": {
+    "title": "TSEC-NSS UNIT",
+    "quote": "NOT ME BUT YOU"
+  },
+  "about": {
+    "title": "ABOUT NSS",
+    "paragraphs": [
+      "The National Service Scheme (NSS), a flagship programme of the Department of Youth Affairs and Sports, Government of India, operates in collaboration with the University of Mumbai. Anchored in its inspiring motto \u201cNot Me, But You,\u201d NSS reflects the values of democratic citizenship and altruistic service, striving to cultivate responsible, empathetic, and socially conscious youth.",
+      "At Thakur Shyamnarayan Engineering College (TSEC), the NSS Unit was inaugurated on 21st June 2025 with an enthusiastic strength of 100 volunteers. The unit is devoted to nurturing socially responsible leaders who contribute actively to the community."
+    ]
+  },
+  "objectives": {
+    "title": "Our Objectives",
+    "intro": "The focus is on enhancing the quality of educated manpower through the cultivation of social responsibility. This entails elevating both material and moral aspects of society by preparing students for dedicated service to the nation. By immersing urban students in rural life, they gain first hand exposure to the community around their institution. The objective is to make the campus responsive to community needs, establishing a constructive link between technical education and the social and economic reconstruction of the country. This involvement contributes to national development and fosters a deeper understanding and appreciation of societal issues, encouraging active community participation."
+  },
+  "contact": {
+    "college": "TSEC",
+    "address": "Mumbai, Kandivali East",
+    "collegeUrl": "https://tsecmumbai.in/",
+    "email": "nss@tsecmumbai.in",
+    "phoneLines": [
+      { "label": "Dr. Suresh Pathak (PO)", "phone": "9869525639" },
+      { "label": "Bhavesh Chaudhary (Youth President)", "phone": "7756828367" },
+      { "label": "Aditi Singh (Youth President)", "phone": "9082070174" },
+      { "label": "Siddhant Bhandari (Tech Head)", "phone": "9260003000" }
+    ],
+    "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3767.5737281905663!2d72.86493!3d19.213812!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7b75d78c4f78d%3A0xda99279267c50407!2sThakur%20Shyamnarayan%20Engineering%20College!5e0!3m2!1sen!2sin!4v1775224237084!5m2!1sen!2sin",
+    "mapLink": "https://maps.app.goo.gl/1cJSEkku6nCB3DFB7",
+    "copyright": "2026 NSS TSEC Mumbai",
+    "tagline": "Not Me, But You."
+  },
+  "introText": {
+    "line1": "TSEC NSS UNIT",
+    "line2": "MH09SB39"
+  }
+}

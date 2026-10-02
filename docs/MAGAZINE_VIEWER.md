@@ -67,8 +67,11 @@ State transitions are pure class swaps in `transitionToOpen/Back/Closed` (`magaz
 let currentFlip = 0;          // next page index to flip
 let isOpened   = false;       // cover flipped open?
 let isAtBack   = false;       // showing back cover?
-const totalFlippable = pagesData.length + 1; // cover + content pages
+function getTotalFlippable() { return pagesData.length + 1; } // cover + content pages
 ```
+- **(Session 5 fix)** `totalFlippable` was originally a `const` computed once at parse time when
+  `pagesData` was still empty, so it always equalled `1` and the magazine could never flip past
+  the cover. It is now derived live via `getTotalFlippable()` from the loaded `pagesData`.
 - `flipForward()` (`magazine.js:191`): flips the page at `currentFlip`, increments, updates the left-page content, and transitions to `state-back` when the last page flips.
 - `flipBackward()` (`magazine.js:220`): reverses the flip and returns to `state-closed` when back at the cover.
 - `updateLeftContent()` (`magazine.js:118`): copies the `innerHTML` of the last flipped page's `.page-back` into the static `.book-page-left`.

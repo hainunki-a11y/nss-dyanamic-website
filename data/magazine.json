@@ -1,0 +1,36 @@
+{
+  "cover": {
+    "image": "assets/photos/hero_1.jpg",
+    "logo": "assets/nss_logo.png",
+    "title": "NSS MAGAZINE"
+  },
+  "foreword": "Welcome to the inaugural edition of our NSS Magazine. This visual journey captures the heart and soul of our unit's impact on community and nation.",
+  "pages": [
+    {
+      "front": {
+        "image": "assets/photos/hero_1.jpg",
+        "title": "Beach Cleaning Drive",
+        "description": "Our volunteers gathered at Juhu Beach for a massive cleaning drive, collecting over 200 kg of waste. The event brought together 80+ enthusiastic members who worked tirelessly under the morning sun."
+      },
+      "back": {
+        "image": "assets/photos/hero_2.jpg",
+        "title": "Independence Day Rally",
+        "description": "A grand rally through the streets of Bandra on 15th August filled the neighbourhood with patriotic fervour. Volunteers carried the national flag and sang anthems."
+      },
+      "order": 1
+    },
+    {
+      "front": {
+        "image": "assets/photos/hero_3.png",
+        "title": "NSS Day Celebrations",
+        "description": "Celebrating NSS Day with cultural programmes, tree plantation, and a pledge ceremony. Faculty advisors addressed the gathering, inspiring volunteers."
+      },
+      "back": {
+        "image": "assets/photos/hero_4.jpg",
+        "title": "Blood Donation Camp",
+        "description": "In collaboration with local hospitals, our NSS unit organized a blood donation camp on campus. Over 60 units were collected in a single day."
+      },
+      "order": 2
+    }
+  ]
+}

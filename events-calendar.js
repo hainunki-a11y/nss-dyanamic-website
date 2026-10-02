@@ -5,8 +5,10 @@
 (function () {
   'use strict';
 
-  /* --- Category Icon Map --- */
-  const CATEGORY_ICON = {
+  /* --- Category Icon Map ---
+     (Session 5) Read from data/category-icons.json so CMS edits take effect;
+     a small default covers known tags if the data is empty/unavailable. */
+  const DEFAULT_CATEGORY_ICON = {
     'hackathon':       '💻',
     'health drive':    '❤️',
     'cultural event':  '🎭',
@@ -22,50 +24,22 @@
     'orientation':     '🎯',
   };
 
+  let CATEGORY_ICON = DEFAULT_CATEGORY_ICON;
+
   function getIcon(tag) {
-    return CATEGORY_ICON[tag.toLowerCase()] || '📌';
+    return (CATEGORY_ICON && CATEGORY_ICON[String(tag || '').toLowerCase()]) || '📌';
   }
 
-  /* --- 2025-26 Archived Events Data --- */
-  const EVENTS_2025_26 = [
-    { date: '21 Feb 2026', title: "Day 2 Hackspark's 2.0", tag: 'Hackathon', photo: 'https://placehold.co/600x800' },
-    { date: '20 Feb 2026', title: "Day 1 Hackspark's 2.0", tag: 'Hackathon', photo: 'https://placehold.co/600x800' },
-    { date: '06 Feb 2026', title: 'Blood Donation Camp', tag: 'Health Drive', photo: 'https://placehold.co/800x600' },
-    { date: '31 Jan 2026', title: 'AAROHAN', tag: 'Cultural Event', photo: 'https://placehold.co/800x600' },
-    { date: '30 Jan 2026', title: 'AAROHAN', tag: 'Cultural Event', photo: 'https://placehold.co/800x600' },
-    { date: '30 Jan 2026', title: 'Medical Checkup Camp', tag: 'Health Drive', photo: 'assets/Events/health-checkup.jpg' },
-    { date: '29 Jan 2026', title: 'FE SSC Awareness Program', tag: 'Awareness', photo: 'https://placehold.co/800x600' },
-    { date: '29 Jan 2026', title: 'AAROHAN', tag: 'Cultural Event', photo: 'https://placehold.co/800x600' },
-    { date: '28 Jan 2026', title: 'TPC Guide on Future Seminar', tag: 'Seminar', photo: 'https://placehold.co/800x600' },
-    { date: '17 Jan 2026', title: 'Aventura', tag: 'Event Series', photo: 'https://placehold.co/800x600' },
-    { date: '15 Jan 2026', title: 'Aventura', tag: 'Event Series', photo: 'https://placehold.co/800x600' },
-    { date: '14 Jan 2026', title: 'Aventura', tag: 'Event Series', photo: 'https://placehold.co/800x600' },
-    { date: '13 Jan 2026', title: 'Aventura', tag: 'Event Series', photo: 'https://placehold.co/800x600' },
-    { date: '12 Jan 2026', title: 'Aventura', tag: 'Event Series', photo: 'https://placehold.co/800x600' },
-    { date: '07 Jan 2026', title: 'Women Health Awareness', tag: 'Awareness', photo: 'https://placehold.co/800x600' },
-    { date: '05 Jan 2026', title: 'Voting Awareness', tag: 'Awareness', photo: 'https://placehold.co/800x600' },
-    { date: '22 Dec 2025', title: 'Youth Mental Health & Suicide Prevention', tag: 'Awareness', photo: 'https://placehold.co/800x600' },
-    { date: '19 Dec 2025', title: 'Awareness On Street Dogs', tag: 'Awareness', photo: 'https://placehold.co/800x600' },
-    { date: '19 Nov 2025', title: 'Reforming the Justice System', tag: 'Seminar', photo: 'https://placehold.co/800x600' },
-    { date: '07 Nov 2025', title: '150 Years Grand Vande Mataram Singing', tag: 'Patriotic Event', photo: 'assets/Events/150 years grand vande mataram.jpeg' },
-    { date: '30 Oct 2025', title: 'Pledge on National Unity Day', tag: 'Patriotic Event', photo: 'assets/Events/Unity Day.jpeg' },
-    { date: '17 Oct 2025', title: 'Prarambh Sports Day', tag: 'Sports', photo: 'https://placehold.co/800x600' },
-    { date: '03 Oct 2025', title: 'Tree Plantation Drive', tag: 'Environment', photo: 'assets/Events/tree plantation.jpg' },
-    { date: '26 Sep 2025', title: 'Smart India Hackathon', tag: 'Hackathon', photo: 'https://placehold.co/600x800' },
-    { date: '25 Sep 2025', title: 'Oath Ceremony', tag: 'Ceremony', photo: 'https://placehold.co/800x600' },
-    { date: '24 Sep 2025', title: 'NSS Day', tag: 'Celebration', photo: 'assets/Events/NSS Day.jpeg' },
-    { date: '20 Sep 2025', title: 'Beach Cleaning Drive', tag: 'Environment', photo: 'assets/Events/BEach cleaning drive.jpeg' },
-    { date: '16 Sep 2025', title: 'FE Orientation', tag: 'Orientation', photo: 'assets/Events/nss-orientation.jpg' },
-    { date: '05 Sep 2025', title: 'Teachers Day', tag: 'Celebration', photo: 'https://placehold.co/800x600' },
-    { date: '02 Sep 2025', title: 'Ganpati Visarjan 7 Day', tag: 'Cultural Event', photo: 'assets/Events/Ganpati Visarjan day 7.jpeg' },
-    { date: '31 Aug 2025', title: 'Ganpati Visarjan 5 Day', tag: 'Cultural Event', photo: 'assets/Events/Ganapati day 5.jpeg' },
-    { date: '25 Aug 2025', title: 'Seminar on Communication Skills', tag: 'Seminar', photo: 'https://placehold.co/800x600' },
-    { date: '15 Aug 2025', title: 'Flag Hoisting', tag: 'Patriotic Event', photo: 'assets/Events/Independence day.jpeg' },
-    { date: '29 Jul 2025', title: 'Seminar on Industry Expectations', tag: 'Seminar', photo: 'https://placehold.co/800x600' },
-    { date: '21 Jul 2025', title: 'Seminar on NPTEL', tag: 'Seminar', photo: 'https://placehold.co/800x600' },
-    { date: '11 Jul 2025', title: 'CPR Training', tag: 'Health Drive', photo: 'https://placehold.co/800x600' },
-    { date: '11 Jul 2025', title: 'Health Checkup Camp', tag: 'Health Drive', photo: 'assets/Events/health-checkup.jpg' },
-  ];
+  /* --- XSS-safe text escaping (Session 5) --- */
+  function esc(s) {
+    return (window.NSS && window.NSS.escapeHtml) ? window.NSS.escapeHtml(s) : String(s == null ? '' : s);
+  }
+
+  /* --- 2025-26 Archived Events Data ---
+     (Session 3) The old duplicated EVENTS_2025_26 array is removed. The
+     calendar now reads the same 2025-26 folder as the events timeline, via
+     the shared data loader. Loaded asynchronously in init(). */
+  let EVENTS_2025_26 = [];
 
   /* --- Calendar Range Bounds --- */
   const START_DATE = new Date('2025-07-01');
@@ -83,8 +57,20 @@
 
   /* --- Initialize Events and Listeners --- */
   document.addEventListener('DOMContentLoaded', () => {
-    initTabSystem();
-    initCalendarWidget();
+    if (window.NSS && window.NSS.getEvents) {
+      window.NSS.getData().then(function (data) {
+        var icons = (data && data.categoryIcons && data.categoryIcons.icons) || null;
+        if (icons && Object.keys(icons).length) CATEGORY_ICON = icons;
+        return window.NSS.getEvents('2025-26');
+      }).then(list => {
+        EVENTS_2025_26 = (list || []).filter(ev => ev && ev.date);
+        initTabSystem();
+        initCalendarWidget();
+      });
+    } else {
+      initTabSystem();
+      initCalendarWidget();
+    }
   });
 
   /* ─── 1. Tab System Logic ─── */
@@ -278,9 +264,9 @@
       eventsMarkup += `
         <div style="${borderTop}">
           ${isMultiple ? `<span style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 4px;">Event ${idx + 1} of ${events.length}</span>` : ''}
-          <div class="cal-detail-category">${icon} ${ev.tag}</div>
-          <h4 class="cal-detail-title">${ev.title}</h4>
-          <button class="cal-detail-btn zoom-btn" data-img="${ev.photo}">View Full Photo</button>
+          <div class="cal-detail-category">${icon} ${esc(ev.tag)}</div>
+          <h4 class="cal-detail-title">${esc(ev.title)}</h4>
+          <button class="cal-detail-btn zoom-btn" data-img="${esc(ev.photo || '')}">View Full Photo</button>
         </div>
       `;
     });
@@ -292,10 +278,10 @@
     detailSide.innerHTML = `
       <div class="calendar-event-detail-card active">
         <div class="cal-detail-img-wrap">
-          <img src="${primaryImg}" class="cal-detail-img" alt="Event preview image">
+          <img src="${esc(primaryImg)}" class="cal-detail-img" alt="Event preview image" onerror="this.onerror=null; this.src='assets/nss_logo.png';">
         </div>
         <div class="cal-detail-content">
-          <span class="cal-detail-date-badge">${dateStr}</span>
+          <span class="cal-detail-date-badge">${esc(dateStr)}</span>
           ${eventsMarkup}
         </div>
       </div>
@@ -330,6 +316,9 @@
       lightbox = document.createElement('div');
       lightbox.id = 'home-lightbox';
       lightbox.className = 'lightbox-overlay';
+      lightbox.setAttribute('role', 'dialog');
+      lightbox.setAttribute('aria-modal', 'true');
+      lightbox.setAttribute('aria-label', 'Event photo');
       lightbox.innerHTML = `
         <button class="lightbox-close" id="home-lightbox-close" aria-label="Close image">&times;</button>
         <div class="lightbox-content">
@@ -347,15 +336,20 @@
     }
 
     const img = document.getElementById('home-lightbox-img');
-    if (img) img.src = src;
+    if (img) {
+      img.onerror = () => { img.src = 'assets/nss_logo.png'; };
+      img.src = src;
+    }
 
     lightbox.classList.add('active');
     document.body.style.overflow = 'hidden';
 
-    // Escape key
+    // Escape key + focus the close button for keyboard access
     document.onkeydown = (e) => {
       if (e.key === 'Escape') closeHomeLightbox();
     };
+    const closeBtn = document.getElementById('home-lightbox-close');
+    if (closeBtn) closeBtn.focus();
   }
 
   function closeHomeLightbox() {

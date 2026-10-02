@@ -1,0 +1,28 @@
+{
+  "items": [
+    {
+      "image": "assets/photos/hero_1.jpg",
+      "title": "Community Understanding",
+      "description": "Develop awareness about real-world community challenges",
+      "order": 1
+    },
+    {
+      "image": "assets/photos/hero_2.jpg",
+      "title": "Assessment & Engagement",
+      "description": "Actively participate and analyze social needs",
+      "order": 2
+    },
+    {
+      "image": "assets/photos/hero_3.png",
+      "title": "Competence Development",
+      "description": "Build skills through practical social work experiences",
+      "order": 3
+    },
+    {
+      "image": "assets/photos/hero_4.jpg",
+      "title": "Leadership & Democracy",
+      "description": "Encourage leadership and democratic values among youth",
+      "order": 4
+    }
+  ]
+}

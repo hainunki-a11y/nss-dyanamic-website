@@ -68,6 +68,19 @@
   /* ── 7. Main animation sequence ── */
   async function runIntro() {
 
+    /* Load intro text from data/site.json (with default fallback) */
+    let introLine1 = 'TSEC NSS UNIT';
+    let introLine2 = 'MH09SB39';
+    try {
+      if (window.NSS && window.NSS.getData) {
+        const data = await window.NSS.getData();
+        if (data && data.site && data.site.introText) {
+          if (data.site.introText.line1) introLine1 = data.site.introText.line1;
+          if (data.site.introText.line2) introLine2 = data.site.introText.line2;
+        }
+      }
+    } catch (e) { /* keep defaults */ }
+
     /* STEP 1 ─ Start logo off-screen right with pre-rotation */
     logo.style.transition = 'none';
     logoWrap.style.transition = 'none';
@@ -105,12 +118,12 @@
     await wait(350); // Fade-in transition completes
 
     /* Type Line 1: "TSEC NSS UNIT" */
-    await typeText(line1El, 'TSEC NSS UNIT', 72);
+    await typeText(line1El, introLine1, 72);
 
     await wait(320);
 
     /* Type Line 2: "MH09SB39" */
-    await typeText(line2El, 'MH09SB39', 90);
+    await typeText(line2El, introLine2, 90);
 
     await wait(900); // Pause — let user read
 

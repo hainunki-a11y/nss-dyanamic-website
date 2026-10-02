@@ -20,6 +20,8 @@
   <link rel="stylesheet" href="preloader.css">
 </head>
 <body>
+  <!-- Shared data loader (must load before every renderer) -->
+  <script src="data.js"></script>
   <!-- Preloader & Offline Screen -->
   <script src="preloader.js"></script>
 
@@ -59,117 +61,7 @@
     <section class="testimonials-grid-section">
       <div class="container">
         <div class="testimonials-grid">
-          <!-- Testimonial 1 -->
-          <div class="testimonial-card">
-            <div class="card-image">
-              <img src="assets/testimonials/tirtha.png" alt="Tirtha Pawar" style="object-fit: cover; object-position: center;">
-              <div class="card-overlay">
-                <span class="volunteer-role">Volunteer</span>
-                <span class="volunteer-year">Batch 2025-26</span>
-              </div>
-            </div>
-            <div class="card-info">
-              <h3 class="volunteer-name">Tirtha Pawar</h3>
-              <p class="volunteer-thought">"My one year journey in NSS has been a truly memorable and enriching experience. During this time, I actively participated in a 7-day special camp, where we conducted social awareness rallies and community service activities. I also took part in the 15th August rally around the local area, beach cleanliness drives, and tree plantation programs. These activities helped me develop teamwork and a strong sense of social responsibility. Overall, my NSS journey inspired me to contribute positively to society and become a more responsible citizen."</p>
-              <button class="read-more-btn" data-id="1">Read More</button>
-            </div>
-          </div>
-
-          <!-- Testimonial 2 (Nitin Gupta) -->
-          <div class="testimonial-card">
-            <div class="card-image">
-              <img src="assets/testimonials/Nitin.png" alt="Mr. Nitin Gupta" style="object-fit: cover; object-position: center;">
-              <div class="card-overlay">
-                <span class="volunteer-role">Volunteer</span>
-                <span class="volunteer-year">Batch 2025-26</span>
-              </div>
-            </div>
-            <div class="card-info">
-              <h3 class="volunteer-name">Mr. Nitin Gupta</h3>
-              <p class="volunteer-thought">"I am Mr. Nitin Gupta from the Electronics and Computer Engineering branch. When I first decided to join the National Service Scheme (NSS), I had very little idea of what it truly meant to serve society and the nation. I thought it was just another college activity, but my perspective changed completely after becoming a volunteer. NSS taught me that real service begins with small acts of kindness and responsibility. Through various social initiatives, awareness drives, and community activities, I learned the importance of teamwork, leadership, and empathy. Every event helped me grow as a better individual and strengthened my confidence. I realized that serving the nation is not only about grand gestures but also about making a positive impact in people's lives. The experiences and memories I gained through NSS have shaped my personality in countless ways. Joining NSS has been one of the most meaningful decisions of my college life, and I will always be grateful for this journey."</p>
-              <button class="read-more-btn" data-id="7">Read More</button>
-            </div>
-          </div>
-
-          <!-- Testimonial 3 -->
-          <div class="testimonial-card">
-            <div class="card-image">
-              <img src="assets/testimonials/Aryan.png" alt="Aryan Singh" style="object-fit: cover; object-position: center;">
-              <div class="card-overlay">
-                <span class="volunteer-role">Mechanical Engineering</span>
-                <span class="volunteer-year">NSS Volunteer | Batch 2025-26</span>
-              </div>
-            </div>
-            <div class="card-info">
-              <h3 class="volunteer-name">Aryan Singh</h3>
-              <p class="volunteer-thought">"I’m from the Mechanical Engineering Department and was an NSS Volunteer from Batch 2025-26. Working with NSS has truly helped me gain leadership, teamwork, public speaking, and volunteering skills. Additionally, it helped me understand people and their perspectives."</p>
-              <button class="read-more-btn" data-id="2">Read More</button>
-            </div>
-          </div>
-
-          <!-- Testimonial 4 -->
-          <div class="testimonial-card">
-            <div class="card-image">
-              <img src="https://placehold.co/150x150" alt="Volunteer 3">
-              <div class="card-overlay">
-                <span class="volunteer-role">Volunteer</span>
-                <span class="volunteer-year">Class of 2025</span>
-              </div>
-            </div>
-            <div class="card-info">
-              <h3 class="volunteer-name">Rohan Gupta</h3>
-              <p class="volunteer-thought">"From beach cleaning to blood donation drives, each event pushed me to be a better version of myself for the society."</p>
-              <button class="read-more-btn" data-id="3">Read More</button>
-            </div>
-          </div>
-
-          <!-- Testimonial 5 -->
-          <div class="testimonial-card">
-            <div class="card-image">
-              <img src="https://placehold.co/150x150" alt="Volunteer 4">
-              <div class="card-overlay">
-                <span class="volunteer-role">Vice President</span>
-                <span class="volunteer-year">Class of 2024</span>
-              </div>
-            </div>
-            <div class="card-info">
-              <h3 class="volunteer-name">Ananya Singhania</h3>
-              <p class="volunteer-thought">"NSS is where I found my purpose. The smiles on the faces of people we help are the biggest rewards I've ever received."</p>
-              <button class="read-more-btn" data-id="4">Read More</button>
-            </div>
-          </div>
-
-          <!-- Testimonial 6 -->
-          <div class="testimonial-card">
-            <div class="card-image">
-              <img src="https://placehold.co/150x150" alt="Volunteer 5">
-              <div class="card-overlay">
-                <span class="volunteer-role">Volunteer</span>
-                <span class="volunteer-year">Class of 2026</span>
-              </div>
-            </div>
-            <div class="card-info">
-              <h3 class="volunteer-name">Siddharth Mehta</h3>
-              <p class="volunteer-thought">"Being a new member, the warmth of the seniors and the impact of the programmes have been truly inspiring and motivating."</p>
-              <button class="read-more-btn" data-id="5">Read More</button>
-            </div>
-          </div>
-
-          <!-- Testimonial 7 -->
-          <div class="testimonial-card">
-            <div class="card-image">
-              <img src="https://placehold.co/150x150" alt="Volunteer 6">
-              <div class="card-overlay">
-                <span class="volunteer-role">Co-ordinator</span>
-                <span class="volunteer-year">Class of 2025</span>
-              </div>
-            </div>
-            <div class="card-info">
-              <h3 class="volunteer-name">Kritika Verma</h3>
-              <p class="volunteer-thought">"Organizing the Hackspark event was a challenge, but seeing its success made me value teamwork and perseverance above all."</p>
-              <button class="read-more-btn" data-id="6">Read More</button>
-            </div>
-          </div>
+          <!-- Cards injected by renderTestimonials.js from data/testimonials.json -->
         </div>
       </div>
     </section>
@@ -204,13 +96,13 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2026 NSS TSEC Mumbai. Designed with Passion.</p>
+          <p data-copyright-suffix=". Designed with Passion.">&copy; 2026 NSS TSEC Mumbai. Designed with Passion.</p>
         </div>
       </div>
     </footer>
 
     <!-- Modal Popup Container -->
-    <div id="testimonial-modal" class="modal-overlay">
+    <div id="testimonial-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Testimonial details">
        <div class="modal-content">
         <button class="close-modal" aria-label="Close modal">&times;</button>
         <div class="modal-scroll-area">
@@ -234,6 +126,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
   <script src="testimonials.js"></script>
+  <script src="renderTestimonials.js"></script>
 
 </body>
 </html>

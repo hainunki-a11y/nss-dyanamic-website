@@ -1,12 +1,19 @@
 # Teams & Testimonials — NSS TSEC Mumbai Website
 
-How the **Teams** page (`teams.html` + `style.css` + `script.js`) and the **Testimonials** page (`testimonials.html` + `testimonials.js` + `testimonials.css`) are structured and rendered.
+How the **Teams** page (`teams.html` + `renderTeams.js` + `style.css` + `script.js`) and the **Testimonials** page (`testimonials.html` + `renderTestimonials.js` + `testimonials.js` + `testimonials.css`) are structured and rendered.
+
+> **Session 3 update:** teams and testimonials are no longer static HTML. `renderTeams.js`
+> builds the faculty/leadership/council/committee DOM from `data/team-members.json`, and
+> `renderTestimonials.js` builds the cards from `data/testimonials.json` (both via the shared
+> `data.js` loader). The markup below is what each renderer emits; the source of truth is the
+> JSON in `data/`, edited through the CMS admin (`/admin/`).
 
 ---
 
 ## 1. Teams Page (`teams.html`)
 
-The page is **entirely static HTML** (no team-data array). It is organized into several visual groups, all using the shared `.team-card` component.
+The page is rendered from `data/team-members.json` (`sections.faculty`, `.leadership`,
+`.council`, `.committee`) by `renderTeams.js`. It is organized into several visual groups, all using the shared `.team-card` component.
 
 ### 1.1 Sections (top → bottom)
 
@@ -56,13 +63,17 @@ A plain HTML `<table>` (`teams.html:550`) with:
 ### 1.5 Animation
 On load, `script.js:316` animates all `.team-card`s to full opacity/scale with `gsap.to(..., stagger: 0.05, ease: 'back.out(1.7)')`. Note `.leader-card-large` and `.slide-card` override the default `opacity: 0` via `!important` (`style.css:776,837`) so they stay visible for the marquee.
 
-> **Placeholder images:** Most leadership and council cards use `https://placehold.co/400x500` (e.g. `teams.html:205`). Only the Principal (`pricipal.png.png`) and Programme Officer (`po.png.png`) have real photos. [To be verified: whether real photos are pending.]
+> **Placeholder images:** Most leadership and council entries in `data/team-members.json` use
+> `https://placehold.co/400x500`; only the Principal (`pricipal.png.png`), Programme Officer
+> (`po.png.png`), and Event Management Head (an uploaded photo) have real photos. Swap in real
+> photos via the CMS admin (Team Members → upload a photo). [To be verified: whether real
+> photos are pending.]
 
 ---
 
 ## 2. Testimonials Page (`testimonials.html`)
 
-Also **static HTML** — no data array. Seven `.testimonial-card`s are hardcoded in the `.testimonials-grid`.
+Cards are rendered from `data/testimonials.json` (`items[]`) by `renderTestimonials.js`.
 
 ### 2.1 Card structure
 ```html

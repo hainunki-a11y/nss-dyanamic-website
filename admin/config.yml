@@ -1,0 +1,326 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+#
+# Sveltia CMS configuration for the NSS TSEC website.
+# The admin lives at /admin/ and is served as a static file by Vercel (no server).
+#
+# Content lives as JSON in /data (the single source of truth) and is committed to
+# the GitHub repo on save; Vercel auto-builds on push to `main`.
+#
+# See docs/ADMIN_SETUP.md for the GitHub OAuth / fine-grained token setup and
+# docs/DATA_SCHEMA.md for the underlying JSON schema each collection edits.
+
+backend:
+  name: github
+  repo: Bhavesh1411/NSS-Website
+  branch: main
+  # Authentication is handled purely client-side by Sveltia: editors click
+  # "Sign in with Token" and paste a fine-grained personal access token.
+  # No serverless OAuth function, no client secret — see docs/ADMIN_SETUP.md.
+
+# ---- Media library -------------------------------------------------------
+# Images uploaded through the CMS land in /assets/uploaded and are committed
+# to the repo, then served from the static CDN.
+#
+# Allowed image types for upload: jpg, jpeg, png, webp, gif (the Image widget
+# accepts these standard raster formats). Sveltia does not expose a config key
+# for a per-type whitelist, so the type guidance is enforced at the widget/UI
+# level and documented in docs/ADMIN_GUIDE.md. The ~5 MB size limit is enforced
+# here via max_file_size.
+media_folder: "assets/uploaded"
+public_folder: "/assets/uploaded"
+media_libraries:
+  all:
+    max_file_size: 5242880 # 5 MB
+    slugify_filename: true
+
+# ---- Site Config ----------------------------------------------------------
+# Single file: data/site.json (hero, about, objectives intro, contact, intro).
+collections:
+  - name: "site"
+    label: "Site Config"
+    label_singular: "Site Config"
+    files:
+      - name: "site"
+        label: "Site Config"
+        file: "data/site.json"
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Hero Title", name: "title", widget: "string", required: true }
+              - { label: "Hero Quote", name: "quote", widget: "string" }
+          - label: "About NSS"
+            name: "about"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "title", widget: "string" }
+              - label: "Paragraphs"
+                name: "paragraphs"
+                widget: "list"
+                field: { label: "Paragraph", name: "paragraph", widget: "text" }
+          - label: "Objectives Intro"
+            name: "objectives"
+            widget: "object"
+            fields:
+              - { label: "Heading", name: "title", widget: "string" }
+              - { label: "Intro Text", name: "intro", widget: "text" }
+          - label: "Contact / Footer"
+            name: "contact"
+            widget: "object"
+            fields:
+              - { label: "College", name: "college", widget: "string" }
+              - { label: "Address", name: "address", widget: "string" }
+              - { label: "College URL", name: "collegeUrl", widget: "string" }
+              - { label: "Email", name: "email", widget: "string", pattern: [".+@.+\\..+", "Please enter a valid email address"] }
+              - label: "Phone Lines"
+                name: "phoneLines"
+                widget: "list"
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "Phone", name: "phone", widget: "string" }
+              - { label: "Map Embed URL", name: "mapEmbedUrl", widget: "string" }
+              - { label: "Map Link", name: "mapLink", widget: "string" }
+              - { label: "Copyright", name: "copyright", widget: "string" }
+              - { label: "Tagline", name: "tagline", widget: "string" }
+          - label: "Intro (typewriter)"
+            name: "introText"
+            widget: "object"
+            fields:
+              - { label: "Line 1", name: "line1", widget: "string" }
+              - { label: "Line 2", name: "line2", widget: "string" }
+
+  # ---- Hero Slides ---------------------------------------------------------
+  # Single file: data/hero-slides.json -> { "slides": [...] }
+  - name: "hero_slides"
+    label: "Hero Slides"
+    label_singular: "Hero Slide"
+    files:
+      - name: "hero_slides"
+        label: "Hero Slides"
+        file: "data/hero-slides.json"
+        fields:
+          - label: "Slides"
+            name: "slides"
+            widget: "list"
+            fields:
+              - { label: "Image", name: "image", widget: "image", required: true }
+              - { label: "Alt Text", name: "alt", widget: "string" }
+              - { label: "Order", name: "order", widget: "number", value_type: "int", min: 1 }
+
+  # ---- Objectives ----------------------------------------------------------
+  # Single file: data/objectives.json -> { "items": [...] }
+  - name: "objectives"
+    label: "Objectives"
+    label_singular: "Objective"
+    files:
+      - name: "objectives"
+        label: "Objectives"
+        file: "data/objectives.json"
+        fields:
+          - label: "Objective Cards"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Title", name: "title", widget: "string", required: true }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Order", name: "order", widget: "number", value_type: "int", min: 1 }
+
+  # ---- Events 2025-26 ------------------------------------------------------
+  # Folder collection: one JSON file per event in data/events/2025-26/
+  - name: "events_2025_26"
+    label: "Events 2025-26"
+    label_singular: "Event"
+    folder: "data/events/2025-26"
+    extension: "json"
+    format: "json"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Date", name: "date", widget: "datetime", format: "DD MMM YYYY", date_format: "DD MMM YYYY", time_format: false, required: true, hint: "e.g. 21 Jun 2026 (DD Mon YYYY)" }
+      - label: "Category / Tag"
+        name: "tag"
+        widget: "select"
+        options:
+          - "Hackathon"
+          - "Health Drive"
+          - "Cultural Event"
+          - "Awareness"
+          - "Seminar"
+          - "Event Series"
+          - "Patriotic Event"
+          - "Sports"
+          - "Environment"
+          - "Rally"
+          - "Ceremony"
+          - "Celebration"
+          - "Orientation"
+      - { label: "Venue", name: "venue", widget: "string", required: false }
+      - { label: "Photo", name: "photo", widget: "image", required: false }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", min: 1 }
+
+  # ---- Events 2026-27 ------------------------------------------------------
+  # Folder collection: one JSON file per event in data/events/2026-27/
+  - name: "events_2026_27"
+    label: "Events 2026-27"
+    label_singular: "Event"
+    folder: "data/events/2026-27"
+    extension: "json"
+    format: "json"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", required: true }
+      - { label: "Date", name: "date", widget: "datetime", format: "DD MMM YYYY", date_format: "DD MMM YYYY", time_format: false, required: true, hint: "e.g. 21 Jun 2026 (DD Mon YYYY)" }
+      - label: "Category / Tag"
+        name: "tag"
+        widget: "select"
+        options:
+          - "Hackathon"
+          - "Health Drive"
+          - "Cultural Event"
+          - "Awareness"
+          - "Seminar"
+          - "Event Series"
+          - "Patriotic Event"
+          - "Sports"
+          - "Environment"
+          - "Rally"
+          - "Ceremony"
+          - "Celebration"
+          - "Orientation"
+      - { label: "Venue", name: "venue", widget: "string", required: false }
+      - { label: "Photo", name: "photo", widget: "image", required: false }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", min: 1 }
+
+  # ---- Category Icons ------------------------------------------------------
+  # Single file: data/category-icons.json -> { "icons": { "key": "emoji" } }
+  - name: "category_icons"
+    label: "Category Icons"
+    label_singular: "Category Icon"
+    files:
+      - name: "category_icons"
+        label: "Category Icons"
+        file: "data/category-icons.json"
+        fields:
+          - label: "Icons (category → emoji)"
+            name: "icons"
+            widget: "keyvalue"
+            required: true
+            key_label: "Category"
+            value_label: "Emoji"
+            hint: "Key must match an event 'tag' (lowercased). E.g. key 'environment' → emoji '🌱'."
+
+  # ---- Magazine ------------------------------------------------------------
+  # Single file: data/magazine.json -> cover, foreword, pages[]
+  - name: "magazine"
+    label: "Magazine"
+    label_singular: "Magazine"
+    files:
+      - name: "magazine"
+        label: "Magazine"
+        file: "data/magazine.json"
+        fields:
+          - label: "Cover"
+            name: "cover"
+            widget: "object"
+            fields:
+              - { label: "Cover Image", name: "image", widget: "image" }
+              - { label: "Logo", name: "logo", widget: "image" }
+              - { label: "Title", name: "title", widget: "string" }
+          - { label: "Foreword", name: "foreword", widget: "text" }
+          - label: "Pages"
+            name: "pages"
+            widget: "list"
+            fields:
+              - label: "Front Page"
+                name: "front"
+                widget: "object"
+                fields:
+                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "description", widget: "text" }
+              - label: "Back Page"
+                name: "back"
+                widget: "object"
+                fields:
+                  - { label: "Image", name: "image", widget: "image" }
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Description", name: "description", widget: "text" }
+              - { label: "Order", name: "order", widget: "number", value_type: "int", min: 1 }
+
+  # ---- Team Members --------------------------------------------------------
+  # Single file: data/team-members.json -> { "sections": { faculty, leadership, council, committee } }
+  - name: "team_members"
+    label: "Team Members"
+    label_singular: "Team Member"
+    files:
+      - name: "team_members"
+        label: "Team Members"
+        file: "data/team-members.json"
+        fields:
+          - label: "Sections"
+            name: "sections"
+            widget: "object"
+            fields:
+              - label: "Faculty"
+                name: "faculty"
+                widget: "list"
+                fields:
+                  - { label: "Name", name: "name", widget: "string", required: true }
+                  - { label: "Role", name: "role", widget: "string" }
+                  - { label: "Photo", name: "photo", widget: "image" }
+                  - { label: "Quote", name: "quote", widget: "text" }
+                  - { label: "Order", name: "order", widget: "number", value_type: "int", min: 1 }
+              - label: "Leadership"
+                name: "leadership"
+                widget: "list"
+                fields:
+                  - { label: "Name", name: "name", widget: "string", required: true }
+                  - { label: "Role", name: "role", widget: "string" }
+                  - { label: "Photo", name: "photo", widget: "image" }
+                  - { label: "Quote", name: "quote", widget: "text" }
+                  - { label: "Order", name: "order", widget: "number", value_type: "int", min: 1 }
+              - label: "Council"
+                name: "council"
+                widget: "list"
+                fields:
+                  - { label: "Name", name: "name", widget: "string", required: true }
+                  - { label: "Role", name: "role", widget: "string" }
+                  - { label: "Photo", name: "photo", widget: "image" }
+                  - { label: "Quote", name: "quote", widget: "text" }
+                  - { label: "Order", name: "order", widget: "number", value_type: "int", min: 1 }
+              - label: "Committee (core table)"
+                name: "committee"
+                widget: "list"
+                fields:
+                  - { label: "Name", name: "name", widget: "string", required: true }
+                  - { label: "Designation", name: "designation", widget: "string" }
+                  - { label: "Order", name: "order", widget: "number", value_type: "int", min: 1 }
+
+  # ---- Testimonials --------------------------------------------------------
+  # Single file: data/testimonials.json -> { "items": [...] }
+  - name: "testimonials"
+    label: "Testimonials"
+    label_singular: "Testimonial"
+    files:
+      - name: "testimonials"
+        label: "Testimonials"
+        file: "data/testimonials.json"
+        fields:
+          - label: "Testimonials"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Name", name: "name", widget: "string", required: true }
+              - { label: "Role", name: "role", widget: "string" }
+              - { label: "Year / Batch", name: "year", widget: "string" }
+              - { label: "Thought", name: "thought", widget: "text" }
+              - { label: "Avatar", name: "avatar", widget: "image" }
+              - { label: "Order", name: "order", widget: "number", value_type: "int", min: 1 }
