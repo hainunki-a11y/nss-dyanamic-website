@@ -1,6 +1,6 @@
 /* ─────────────────────────────────────────────────────────────────────────
-   NSS TSEC Content Admin — Modern Dashboard Theme
-   Uses Sveltia's documented stable classes and CSS custom properties.
+   NSS TSEC Content Admin — Clean Dashboard Styling
+   Focuses on making content sections (collection lists) modern & easy to navigate.
    ───────────────────────────────────────────────────────────────────────── */
 
 :root {
@@ -9,230 +9,124 @@
   --sui-primary-accent-color-dark: #b71c1c;
   --sui-primary-accent-color-light: #e53935;
   --sui-primary-accent-color-text: #d32f2f;
-  --sui-primary-accent-color-translucent: rgba(211, 47, 47, 0.6);
-  --sui-primary-accent-color-translucent-light: rgba(211, 47, 47, 0.4);
-  --sui-primary-accent-color-inverted: #ffffff;
   --sui-focus-ring-color: #d32f2f;
 
-  /* Modernize toolbar size */
+  /* Softer neutrals */
+  --sui-base-hue: 210;
+
+  /* Modern card corners */
   --sui-primary-toolbar-size: 64px;
-  --sui-secondary-toolbar-size: 48px;
-
-  /* Softer, more modern background */
-  --sui-background-color-1-hsl: 210 5% 98%;
-  --sui-background-color-2-hsl: 210 5% 95%;
-  --sui-background-color-3-hsl: 210 5% 90%;
-
-  /* Card-like elevations */
-  --sui-shadow-color: 0 0% 0%;
+  --sui-secondary-toolbar-size: 56px;
 }
 
-/* ── Global background ── */
-body {
-  background:
-    radial-gradient(ellipse at 10% 20%, rgba(211, 47, 47, 0.08), transparent 35%),
-    radial-gradient(ellipse at 90% 80%, rgba(179, 28, 28, 0.06), transparent 35%),
-    linear-gradient(180deg, #f8f9fa 0%, #f0f2f5 100%) fixed;
-  background-attachment: fixed;
+/* ── Login screen ── */
+body.sui.app-shell .outer .main {
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
 }
 
-/* ── App shell ── */
-.sui.app-shell {
-  /* Slightly more contrast for text */
-  --sui-foreground-color-2-hsl: 210 5% 20%;
-  --sui-foreground-color-3-hsl: 210 5% 30%;
-
-  /* Rounded corners */
-  --sui-primary-toolbar-size: 8px;
-  --sui-secondary-toolbar-size: 8px;
-  --sui-control-small-border-radius: 8px;
-  --sui-control-medium-border-radius: 8px;
-  --sui-control-large-border-radius: 8px;
-  --sui-option-border-radius: 8px;
-}
-
-/* ── Outer container ── */
-.sui.app-shell > .outer {
-  background: transparent;
-}
-
-/* ── Main content area ── */
-.sui.app-shell > .outer > .main {
-  background: transparent;
-}
-
-/* ── Toolbar (navigation) ── */
-.sui.toolbar {
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.sui.toolbar.primary {
-  background: rgba(255, 255, 255, 0.9) !important;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.sui.toolbar.vertical {
-  background: rgba(255, 255, 255, 0.92) !important;
-  border-right: 1px solid rgba(0, 0, 0, 0.06);
+.sui.app-shell .outer .main .logo {
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.12));
 }
 
 /* ── Buttons ── */
 .sui.button.primary {
-  background: linear-gradient(135deg, var(--sui-primary-accent-color) 0%, var(--sui-primary-accent-color-dark) 100%) !important;
-  border: none !important;
-  box-shadow: 0 2px 6px rgba(211, 47, 47, 0.28);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  background: linear-gradient(135deg, var(--sui-primary-accent-color) 0%, var(--sui-primary-accent-color-dark) 100%);
+  border: none;
+  box-shadow: 0 2px 8px rgba(211, 47, 47, 0.25);
 }
 
 .sui.button.primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.32);
-}
-
-.sui.button.primary:active {
-  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.30);
 }
 
 .sui.button.secondary {
-  background: linear-gradient(135deg, #ffffff 0%, #f5f5f5 100%) !important;
-  border: 1px solid rgba(0, 0, 0, 0.12) !important;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.sui.button.secondary:hover {
-  background: #ffffff !important;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+/* ── Content Library / Collection Lists (the main dashboard) ── */
+/* Modernize the collection cards with better spacing, borders, and hover effects */
+
+/* Collection list cards */
+.sui[data-field-type='list'],
+.sui .list-collection,
+.sui table {
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-/* ── Logo ── */
-.sui.app-shell .logo {
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.12));
+.sui table {
+  border-collapse: separate;
+  border-spacing: 0 6px;
 }
 
-/* ── Content area cards / lists ── */
-/* Most content uses .sui elements like buttons, textboxes, lists */
+.sui table tr {
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.sui table tr:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Collection headers / section cards */
+.sui .collection-header,
+.sui .collection-list,
+.sui .entry-list {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* ── Toolbar (navigation) ── */
+.sui.toolbar {
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* ── Text inputs / textareas ── */
 .sui.textbox,
 .sui.listbox,
-.sui.tree,
 .sui.select {
-  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .sui.textbox:focus,
 .sui.listbox:focus,
-.sui.tree:focus,
 .sui.select:focus {
   border-color: var(--sui-primary-accent-color);
-  box-shadow: 0 2px 12px rgba(211, 47, 47, 0.15);
+  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.12);
 }
 
 /* ── Links ── */
 .sui a,
-body a {
+.sui button {
   color: var(--sui-primary-accent-color);
   text-decoration: none;
+  transition: color 0.15s ease;
 }
 
 .sui a:hover,
-body a:hover {
-  text-decoration: underline;
+.sui button:hover {
+  color: var(--sui-primary-accent-color-dark);
 }
 
-/* ── Login screen branding ── */
-body > .sui.app-shell {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-}
-
-.sui.app-shell .outer {
-  max-width: 440px;
-  width: 100%;
-  padding: 48px 32px;
-}
-
-.sui.app-shell .outer .main {
-  background: linear-gradient(135deg, #ffffff 0%, #fdf2f2 100%);
-  border-radius: 24px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-  padding: 40px 32px;
-  text-align: center;
-}
-
-.sui.app-shell .outer .main .logo {
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
-  margin-bottom: 24px;
-}
-
-.sui.app-shell .outer .main h1 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 16px;
-}
-
-.sui.app-shell .outer .main .buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 32px;
-}
-
-.sui.app-shell .outer .main button {
-  width: 100%;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 14px 16px;
-}
-
-.sui.app-shell .outer .main .powered-by {
-  margin-top: 32px;
-  color: #888;
-  font-size: 13px;
-}
-
-/* ── Modern table/list styling ── */
-/* The content library uses a table/list layout; modernize it */
-.sui table {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-}
-
-.sui table th {
-  background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
-  color: #444;
-  font-weight: 600;
-}
-
-.sui table tr:hover {
-  background: rgba(211, 47, 47, 0.03);
-}
-
-/* ── Typography improvements ── */
+/* ── Typography ── */
 .sui h1,
 .sui h2,
-.sui h3,
-body h1,
-body h2,
-body h3 {
+.sui h3 {
   letter-spacing: -0.01em;
 }
 
-.sui p,
-body p {
-  line-height: 1.6;
+.sui p {
+  line-height: 1.5;
 }
 
 /* ── Focus ring ── */
