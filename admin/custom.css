@@ -1,102 +1,368 @@
-/* --- NSS TSEC Content Admin - Clean Dashboard Styling --- */
+/* ─────────────────────────────────────────────────────────────────────────
+   NSS TSEC Content Admin — Modern SaaS Aesthetic (Vercel/Linear/Stripe inspired)
+   Applies design system overrides to Sveltia CMS UI.
+   ───────────────────────────────────────────────────────────────────────── */
 
+/* === 1. DESIGN SYSTEM VARIABLES === */
 :root {
-  --sui-primary-accent-color: #d32f2f;
-  --sui-primary-accent-color-dark: #b71c1c;
-  --sui-primary-accent-color-light: #e53935;
-  --sui-primary-accent-color-text: #d32f2f;
-  --sui-focus-ring-color: #d32f2f;
-  --sui-base-hue: 210;
-  --sui-primary-toolbar-size: 64px;
-  --sui-secondary-toolbar-size: 56px;
+  /* Brand Colors */
+  --brand-primary: #6366f1; /* Indigo */
+  --brand-primary-dark: #4f46e5;
+  --brand-primary-light: #818cf8;
+  --brand-accent: #10b981; /* Emerald */
+  
+  /* Neutral Surfaces */
+  --bg-canvas: #f8fafc; /* Slate-50 */
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f1f5f9;
+  
+  /* Borders & Dividers */
+  --border-color: #e2e8f0;
+  --border-color-hover: #cbd5e1;
+  
+  /* Typography */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  
+  /* Spacing */
+  --space-unit: 8px;
 }
 
+/* === 2. GLOBAL OVERRIDES === */
+
+body {
+  background: var(--bg-canvas) !important;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 14px;
+}
+
+/* === 3. NAVIGATION/SIDEBAR === */
+
+.sui.toolbar.primary {
+  background: var(--bg-surface) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  box-shadow: var(--shadow-sm) !important;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.sui.toolbar.primary h2 {
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 15px;
+}
+
+/* === 4. MAIN CONTENT AREA === */
+
+.sui.app-shell .outer .main {
+  background: transparent !important;
+  padding: 24px !important;
+}
+
+/* === 5. COLLECTION CARDS (Main Dashboard) === */
+
+.sui .collection-header,
+.sui .entry-list {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-sm) !important;
+  padding: 20px !important;
+  margin-bottom: 16px !important;
+}
+
+.sui .entry-list h2 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+/* === 6. CARDS & LIST ITEMS === */
+
+.sui table {
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+  box-shadow: var(--shadow-sm) !important;
+}
+
+.sui table tr {
+  background: var(--bg-surface) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  transition: all 0.2s ease;
+}
+
+.sui table tr:last-child {
+  border-bottom: none;
+}
+
+.sui table tr:hover {
+  background: var(--bg-surface-hover) !important;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+/* Active/selected row */
+.sui table tr:has(.sui) {
+  border-left: 3px solid var(--brand-primary);
+}
+
+/* === 7. BUTTONS === */
+
+.sui button {
+  border-radius: var(--radius-md) !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  padding: 10px 16px !important;
+  transition: all 0.15s ease !important;
+}
+
+/* Primary buttons */
+.sui.button.primary {
+  background: var(--brand-primary) !important;
+  border: none !important;
+  box-shadow: 0 1px 3px rgba(99, 102, 241, 0.3) !important;
+}
+
+.sui.button.primary:hover {
+  background: var(--brand-primary-dark) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.4) !important;
+}
+
+/* Secondary buttons */
+.sui.button.secondary {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.sui.button.secondary:hover {
+  background: var(--bg-surface-hover) !important;
+  border-color: var(--border-color-hover) !important;
+}
+
+/* === 8. INPUTS & FORMS === */
+
+.sui.textbox,
+.sui.select,
+.sui textarea {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-md) !important;
+  padding: 10px 12px !important;
+  font-size: 13px !important;
+  transition: all 0.2s ease !important;
+}
+
+.sui.textbox:focus,
+.sui.select:focus,
+.sui textarea:focus {
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+  outline: none !important;
+}
+
+.sui label {
+  color: var(--text-secondary) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+
+/* === 9. LOGIN SCREEN === */
+
 body.sui.app-shell .outer .main {
-  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  background: var(--bg-surface) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-lg) !important;
+  padding: 40px 32px !important;
+  max-width: 420px;
+  margin: 0 auto;
 }
 
 .sui.app-shell .outer .main .logo {
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.12));
 }
 
-.sui.button.primary {
-  background: linear-gradient(135deg, var(--sui-primary-accent-color) 0%, var(--sui-primary-accent-color-dark) 100%);
-  border: none;
-  box-shadow: 0 2px 8px rgba(211, 47, 47, 0.25);
+.sui.app-shell .outer .main h1 {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 8px;
 }
 
-.sui.button.primary:hover {
-  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.30);
+.sui.app-shell .outer .main .buttons {
+  margin-top: 32px;
 }
 
-.sui.button.secondary {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.12);
+.sui.app-shell .outer .main button {
+  width: 100% !important;
+  font-size: 14px !important;
+  padding: 12px 16px !important;
 }
 
-.sui table {
-  border-collapse: separate;
-  border-spacing: 0 6px;
+/* === 10. TOAST NOTIFICATIONS (if available) === */
+
+/* Toast container */
+.sui-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.sui table tr {
-  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
-  border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+/* Individual toast */
+.sui-toast > div {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  box-shadow: var(--shadow-md);
+  min-width: 280px;
+  animation: slideIn 0.3s ease;
 }
 
-.sui table tr:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-.sui.toolbar {
-  background: rgba(255, 255, 255, 0.98);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+/* Toast types */
+.sui-toast-success {
+  border-left: 4px solid var(--brand-accent);
 }
 
-.sui.textbox,
-.sui.listbox,
-.sui.select {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 8px;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+.sui-toast-error {
+  border-left: 4px solid #ef4444;
 }
 
-.sui.textbox:focus,
-.sui.listbox:focus,
-.sui.select:focus {
-  border-color: var(--sui-primary-accent-color);
-  box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.12);
+.sui-toast-warning {
+  border-left: 4px solid #f59e0b;
 }
 
-.sui a,
-.sui button {
-  color: var(--sui-primary-accent-color);
-  text-decoration: none;
-  transition: color 0.15s ease;
+/* === 11. MODALS & OVERLAYS === */
+
+.sui-modal-overlay {
+  backdrop-filter: blur(4px);
 }
 
-.sui a:hover,
-.sui button:hover {
-  color: var(--sui-primary-accent-color-dark);
+.sui-modal {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  animation: modalOpen 0.2s ease;
 }
 
-.sui h1,
-.sui h2,
-.sui h3 {
-  letter-spacing: -0.01em;
+@keyframes modalOpen {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-.sui p {
-  line-height: 1.5;
+/* === 12. BADGES & TAGS === */
+
+.sui-badge,
+.sui-tag {
+  background: var(--brand-primary-light);
+  color: #fff;
+  border-radius: 9999px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 500;
 }
 
-.sui :focus {
-  outline-color: var(--sui-focus-ring-color);
+/* === 13. FOOTER & ATTRIBUTION === */
+
+.sui-powered-by {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 24px;
+  text-align: center;
+}
+
+/* === 14. ACCESSIBILITY FOCUS === */
+
+.sui *:focus-visible {
+  outline: 2px solid var(--brand-primary);
   outline-offset: 2px;
+}
+
+.sui *:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* === 15. SCROLLBAR STYLING === */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-color-hover);
+}
+
+/* === 16. RESPONSIVE TWEAKS === */
+
+@media (max-width: 768px) {
+  .sui.app-shell .outer .main {
+    padding: 16px !important;
+  }
+  
+  .sui table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .sui button {
+    width: 100%;
+  }
+}
+
+/* === 17. PRINT STYLES === */
+
+@media print {
+  .sui-toolbar,
+  .sui-powered-by,
+  .sui-toast {
+    display: none;
+  }
 }
