@@ -1,25 +1,16 @@
-/* ─────────────────────────────────────────────────────────────────────────
-   NSS TSEC Content Admin — Clean Dashboard Styling
-   Focuses on making content sections (collection lists) modern & easy to navigate.
-   ───────────────────────────────────────────────────────────────────────── */
+/* --- NSS TSEC Content Admin - Clean Dashboard Styling --- */
 
 :root {
-  /* Brand accent (NSS red) */
   --sui-primary-accent-color: #d32f2f;
   --sui-primary-accent-color-dark: #b71c1c;
   --sui-primary-accent-color-light: #e53935;
   --sui-primary-accent-color-text: #d32f2f;
   --sui-focus-ring-color: #d32f2f;
-
-  /* Softer neutrals */
   --sui-base-hue: 210;
-
-  /* Modern card corners */
   --sui-primary-toolbar-size: 64px;
   --sui-secondary-toolbar-size: 56px;
 }
 
-/* ── Login screen ── */
 body.sui.app-shell .outer .main {
   background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
   border-radius: 20px;
@@ -30,7 +21,6 @@ body.sui.app-shell .outer .main {
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.12));
 }
 
-/* ── Buttons ── */
 .sui.button.primary {
   background: linear-gradient(135deg, var(--sui-primary-accent-color) 0%, var(--sui-primary-accent-color-dark) 100%);
   border: none;
@@ -44,17 +34,6 @@ body.sui.app-shell .outer .main {
 .sui.button.secondary {
   background: #ffffff;
   border: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-/* ── Content Library / Collection Lists (the main dashboard) ── */
-/* Modernize the collection cards with better spacing, borders, and hover effects */
-
-/* Collection list cards */
-.sui[data-field-type='list'],
-.sui .list-collection,
-.sui table {
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .sui table {
@@ -74,21 +53,11 @@ body.sui.app-shell .outer .main {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-/* Collection headers / section cards */
-.sui .collection-header,
-.sui .collection-list,
-.sui .entry-list {
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.95);
-}
-
-/* ── Toolbar (navigation) ── */
 .sui.toolbar {
   background: rgba(255, 255, 255, 0.98);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-/* ── Text inputs / textareas ── */
 .sui.textbox,
 .sui.listbox,
 .sui.select {
@@ -105,7 +74,6 @@ body.sui.app-shell .outer .main {
   box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.12);
 }
 
-/* ── Links ── */
 .sui a,
 .sui button {
   color: var(--sui-primary-accent-color);
@@ -118,7 +86,6 @@ body.sui.app-shell .outer .main {
   color: var(--sui-primary-accent-color-dark);
 }
 
-/* ── Typography ── */
 .sui h1,
 .sui h2,
 .sui h3 {
@@ -129,7 +96,6 @@ body.sui.app-shell .outer .main {
   line-height: 1.5;
 }
 
-/* ── Focus ring ── */
 .sui :focus {
   outline-color: var(--sui-focus-ring-color);
   outline-offset: 2px;
